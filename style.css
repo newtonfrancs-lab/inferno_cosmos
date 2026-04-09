@@ -254,3 +254,39 @@ body::before {
   50% { transform: translateY(-12px); }
   100% { transform: translateY(0px); }
 }
+
+/* 📱 TOUCH CONTROLS */
+.touch-controls {
+  display: none;
+}
+
+/* Show only on mobile */
+@media (max-width: 768px) {
+  .touch-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+  }
+
+  .touch-controls button {
+    width: 70px;
+    height: 70px;
+    font-size: 24px;
+    border-radius: 50%;
+    border: none;
+
+    background: rgba(0,255,255,0.2);
+    color: white;
+
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px cyan;
+
+    transition: 0.2s;
+  }
+
+  .touch-controls button:active {
+    transform: scale(0.9);
+    box-shadow: 0 0 30px cyan;
+  }
+}
