@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>High Scores - Jet Shooter</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="navbar">
+  <div class="logo">INFERNO COSMOS</div>
+  <div class="nav-links">
+    <a href="home.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="controls.html">Controls</a>
+    <a href="Game.html">Play</a>
+  </div>
+</div>
+
+<section class="hero">
+  <h1>🏆 HIGH SCORE</h1>
+
+  <div class="card" style="margin:auto; max-width:300px;">
+    <h2 id="highScore">0</h2>
+    <p>Best Score Achieved</p>
+  </div>
+
+  <button class="cta-btn" onclick="resetScore()">Reset Score</button>
+</section>
+
+<script>
+let highScore = localStorage.getItem("highScore") || 0;
+document.getElementById("highScore").innerText = highScore;
+
+function resetScore() {
+  localStorage.setItem("highScore", 0);
+  location.reload();
+}
+</script>
+
+</body>
+</html>
