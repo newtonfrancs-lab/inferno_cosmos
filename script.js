@@ -193,3 +193,41 @@ gameArea.addEventListener("touchend", () => {
 });
 
 };
+
+// 📱 TOUCHPAD CONTROLS
+
+let moveLeftInterval;
+let moveRightInterval;
+
+const leftBtn = document.getElementById("leftBtn");
+const rightBtn = document.getElementById("rightBtn");
+const shootBtn = document.getElementById("shootBtn");
+
+// ⬅️ HOLD LEFT
+leftBtn.addEventListener("touchstart", () => {
+  moveLeftInterval = setInterval(() => {
+    jetX -= 5;
+    if (jetX < 0) jetX = 0;
+  }, 16);
+});
+
+leftBtn.addEventListener("touchend", () => {
+  clearInterval(moveLeftInterval);
+});
+
+// ➡️ HOLD RIGHT
+rightBtn.addEventListener("touchstart", () => {
+  moveRightInterval = setInterval(() => {
+    jetX += 5;
+    if (jetX > 350) jetX = 350;
+  }, 16);
+});
+
+rightBtn.addEventListener("touchend", () => {
+  clearInterval(moveRightInterval);
+});
+
+// 🔫 SHOOT BUTTON
+shootBtn.addEventListener("touchstart", () => {
+  shoot();
+});
