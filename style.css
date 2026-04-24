@@ -254,3 +254,24 @@ body::before {
   50% { transform: translateY(-12px); }
   100% { transform: translateY(0px); }
 }
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .nav-links a {
+    margin: 0 10px;
+    font-size: 14px;
+  }
+
+  .hero h1 {
+    font-size: 40px; /* Smaller title for mobile */
+  }
+}
