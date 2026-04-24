@@ -167,67 +167,34 @@ setInterval(createEnemy, 1000);
 
 let isTouching = false;
 
-gameArea.addEventListener("touchstart", (e) => {
-  isTouching = true;
+// Replace your existing touch listeners with this:
 
-  // 🔫 Tap = shoot
+gameArea.addEventListener("touchstart", (e) => {
+  e.preventDefault(); // Prevents accidental refreshes or zooms
   shoot();
-});
+}, { passive: false });
 
 gameArea.addEventListener("touchmove", (e) => {
-  if (!isTouching) return;
-
+  e.preventDefault();
+  
   let touch = e.touches[0];
   let rect = gameArea.getBoundingClientRect();
 
+  // Calculate position relative to the game area
   let touchX = touch.clientX - rect.left;
 
-  jetX = touchX - 25;
+  // Center the jet on the finger
+  jetX = touchX - (jet.offsetWidth / 2);
 
+  // Constraints based on current gameArea width
   if (jetX < 0) jetX = 0;
-  if (jetX > rect.width - 50) jetX = rect.width - 50;
-});
+  if (jetX > rect.width - jet.offsetWidth) jetX = rect.width - jet.offsetWidth;
+
+  jet.style.left = jetX + "px";
+}, { passive: false });
 
 gameArea.addEventListener("touchend", () => {
   isTouching = false;
 });
 
 };
-
-// 📱 TOUCHPAD CONTROLS
-
-let moveLeftInterval;
-let moveRightInterval;
-
-const leftBtn = document.getElementById("leftBtn");
-const rightBtn = document.getElementById("rightBtn");
-const shootBtn = document.getElementById("shootBtn");
-
-// ⬅️ HOLD LEFT
-leftBtn.addEventListener("touchstart", () => {
-  moveLeftInterval = setInterval(() => {
-    jetX -= 5;
-    if (jetX < 0) jetX = 0;
-  }, 16);
-});
-
-leftBtn.addEventListener("touchend", () => {
-  clearInterval(moveLeftInterval);
-});
-
-// ➡️ HOLD RIGHT
-rightBtn.addEventListener("touchstart", () => {
-  moveRightInterval = setInterval(() => {
-    jetX += 5;
-    if (jetX > 350) jetX = 350;
-  }, 16);
-});
-
-rightBtn.addEventListener("touchend", () => {
-  clearInterval(moveRightInterval);
-});
-
-// 🔫 SHOOT BUTTON
-shootBtn.addEventListener("touchstart", () => {
-  shoot();
-});
