@@ -1,74 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta charset="UTF-8">
-<title>Jet Shooter</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFERNO COSMOS | Deployment</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- 💫 Glow Orbs -->
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
 
-<!-- 🌐 Navbar -->
-<div class="navbar">
-  <div class="logo">INFERNO COSMOS</div>
-  <div class="nav-links">
-    <a href="home.html">Home</a>
-    <a href="about.html">Features</a>
-    <a href="controls.html">Controls</a>
-    <a href="score.html">Scores</a>
-  </div>
-</div>
-
-<!-- 🚀 Hero Section -->
-<section class="hero">
-  <h1>EXPLORE THE SPACE BATTLE</h1>
-  <p>
-    Control your fighter jet, destroy enemies, and survive as long as possible
-    in this fast-paced arcade space shooter.
-  </p>
-
-  <button class="cta-btn" onclick="startGame()" href="Game.html">▶ PLAY NOW</button>
-</section>
-
-<!-- 🌌 Features -->
-<section class="features" id="features">
-  <h2>Game Features</h2>
-
-  <div class="card-container">
-
-    <div class="card">
-      <h3>🚀 Smooth Controls</h3>
-      <p>Move your jet seamlessly with responsive keyboard input.</p>
+    <div class="navbar">
+        <div class="logo">INFERNO COSMOS</div>
+        <div class="nav-links">
+            <a href="about.html">About</a>
+            <a href="controls.html">Controls</a>
+            <a href="score.html">High Scores</a>
+        </div>
     </div>
 
-    <div class="card">
-      <h3>🔫 Shooting System</h3>
-      <p>Fire bullets and destroy enemies in real time.</p>
-    </div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>INFERNO COSMOS</h1>
+            <p>The galaxy is under siege. Pilot your tactical fighter through the asteroid belt and eliminate the alien threat.</p>
+            
+            <div class="jet-preview" style="margin: 40px auto; font-size: 80px; filter: drop-shadow(0 0 20px cyan);">
+                🚀
+            </div>
 
-    <div class="card">
-      <h3>👾 Enemy Waves</h3>
-      <p>Face continuous waves of alien enemies.</p>
-    </div>
+            <a href="game.html" style="text-decoration: none;">
+                <button class="cta-btn">INITIALIZE MISSION</button>
+            </a>
+        </div>
 
-    <div class="card">
-      <h3>❤️ Lives System</h3>
-      <p>Survive multiple hits before the game ends.</p>
-    </div>
+        <div class="card-container" style="margin-top: 60px;">
+            <div class="card">
+                <h3>High Intensity</h3>
+                <p>Adaptive difficulty scaling for elite pilots.</p>
+            </div>
+            <div class="card">
+                <h3>Global Ranking</h3>
+                <p>Compete for the top spot on the scoreboard.</p>
+            </div>
+        </div>
+    </section>
 
-  </div>
-</section>
-
-<script>
-function startGame() {
-  window.location.href = "Game.html";
-}
-</script>
+    <footer style="margin-top: 50px; opacity: 0.5; font-size: 12px; text-align: center; padding-bottom: 30px;">
+        SYSTEM STATUS: ONLINE | VERSION 2.0.26
+    </footer>
 
 </body>
 </html>
