@@ -13,18 +13,19 @@ h2, h3 {
   text-shadow: 0 0 10px cyan;
 }
 
-/* 🌌 GAME AREA */
+/* 🌌 UPDATED GAME AREA */
 .gameArea {
-  width: 400px;
-  height: 600px;
-  margin: 20px auto;
+  width: 95vw;          /* Uses 95% of viewport width */
+  max-width: 400px;     /* Prevents it from getting too big on desktop */
+  height: 80vh;         /* Uses 80% of viewport height */
+  margin: 10px auto;
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-
   background: black;
   border: 2px solid cyan;
   box-shadow: 0 0 20px cyan;
+  touch-action: none;   /* Prevents the screen from scrolling while playing */
 }
 
 /* ✨ STAR BACKGROUND */
@@ -45,8 +46,8 @@ h2, h3 {
 
 /* ✈️ JET */
 .jet {
-  width: 50px;
-  height: 60px;
+  width: 40px;
+  height: 50px;
   background: linear-gradient(cyan, #00bcd4);
   position: absolute;
   bottom: 20px;
@@ -116,41 +117,3 @@ button:hover {
   transform: scale(1.1);
   box-shadow: 0 0 15px cyan;
 }
-
-// 📱 TOUCHPAD CONTROLS
-
-let moveLeftInterval;
-let moveRightInterval;
-
-const leftBtn = document.getElementById("leftBtn");
-const rightBtn = document.getElementById("rightBtn");
-const shootBtn = document.getElementById("shootBtn");
-
-// ⬅️ HOLD LEFT
-leftBtn.addEventListener("touchstart", () => {
-  moveLeftInterval = setInterval(() => {
-    jetX -= 5;
-    if (jetX < 0) jetX = 0;
-  }, 16);
-});
-
-leftBtn.addEventListener("touchend", () => {
-  clearInterval(moveLeftInterval);
-});
-
-// ➡️ HOLD RIGHT
-rightBtn.addEventListener("touchstart", () => {
-  moveRightInterval = setInterval(() => {
-    jetX += 5;
-    if (jetX > 350) jetX = 350;
-  }, 16);
-});
-
-rightBtn.addEventListener("touchend", () => {
-  clearInterval(moveRightInterval);
-});
-
-// 🔫 SHOOT BUTTON
-shootBtn.addEventListener("touchstart", () => {
-  shoot();
-});
