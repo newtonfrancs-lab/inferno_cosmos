@@ -1,277 +1,59 @@
-/* 🌌 GLOBAL RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+:root {
+  --neon-cyan: #00f7ff;
+  --neon-purple: #bc13fe;
+  --glass: rgba(255, 255, 255, 0.03);
+  --border: rgba(0, 247, 255, 0.2);
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at 30% 20%, #0a0f2c, #020111 70%);
-  color: white;
+  background: radial-gradient(circle at center, #0d1117 0%, #000000 100%);
   overflow-x: hidden;
+  font-family: 'Orbitron', sans-serif; /* Recommended: Import from Google Fonts */
 }
 
-/* 🌠 PARALLAX STARS */
-body::before {
-  content: "";
-  position: fixed;
-  width: 300%;
-  height: 300%;
-  background: url("https://www.transparenttextures.com/patterns/stardust.png");
-  opacity: 0.15;
-  animation: starsMove 180s linear infinite;
-  z-index: -3;
-}
-
-@keyframes starsMove {
-  from { transform: translate(0,0); }
-  to { transform: translate(-1500px, -1500px); }
-}
-
-/* 💫 GLOW ORBS (MORE DEPTH) */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.4;
-  z-index: -2;
-  animation: floatOrb 10s ease-in-out infinite alternate;
-}
-
-.orb1 {
-  width: 400px;
-  height: 400px;
-  background: cyan;
-  top: 5%;
-  left: 5%;
-}
-
-.orb2 {
-  width: 500px;
-  height: 500px;
-  background: purple;
-  bottom: 5%;
-  right: 5%;
-}
-
-@keyframes floatOrb {
-  from { transform: translateY(0); }
-  to { transform: translateY(-40px); }
-}
-
-/* ✨ NAVBAR */
+/* 💠 CYBER-PUNK NAVBAR */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 25px 80px;
-  align-items: center;
-
-  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border);
+  padding: 15px 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #7df9ff;
-  letter-spacing: 3px;
-
-  text-shadow: 0 0 15px cyan;
-}
-
-/* 🔗 NAV LINKS */
-.nav-links a {
-  margin: 0 20px;
-  text-decoration: none;
-  color: #aaa;
-  position: relative;
-  transition: 0.3s;
-}
-
-/* 🔥 UNDERLINE ANIMATION */
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  background: cyan;
-  left: 0;
-  bottom: -5px;
-  transition: 0.3s;
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-.nav-links a:hover {
-  color: #7df9ff;
-}
-
-/* 🚀 HERO */
-.hero {
-  text-align: center;
-  padding: 120px 20px;
-}
-
-/* 🚀 TITLE (ADVANCED GLOW) */
-.hero h1 {
-  font-size: 70px;
-  letter-spacing: 4px;
-
-  background: linear-gradient(90deg, #7df9ff, #00c3ff, #7df9ff);
-  
+  text-transform: uppercase;
+  background: linear-gradient(to right, var(--neon-cyan), #fff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  /* fallback */
-  color: transparent;
-
-  text-shadow:
-    0 0 10px #00f7ff,
-    0 0 30px #00f7ff,
-    0 0 60px #00f7ff;
+  filter: drop-shadow(0 0 10px var(--neon-cyan));
 }
 
-@keyframes glowPulse {
-  from { text-shadow: 0 0 10px #00f7ff; }
-  to { text-shadow: 0 0 60px #00f7ff; }
-}
-
-/* ✍️ TEXT */
-.hero p {
-  max-width: 600px;
-  margin: 20px auto;
-  color: #bbb;
-  font-size: 16px;
-}
-
-/* 🔘 BUTTON */
-.cta-btn {
-  margin-top: 20px;
-  padding: 14px 40px;
-  border-radius: 40px;
-  border: none;
-  font-size: 18px;
-
-  background: linear-gradient(45deg, #7df9ff, #00c3ff);
-  color: black;
-  font-weight: bold;
-
-  cursor: pointer;
-  transition: 0.4s;
-
-  box-shadow: 0 0 25px #00f7ff;
-}
-
-.cta-btn:hover {
-  transform: scale(1.15) rotate(1deg);
-  box-shadow: 0 0 60px #00f7ff;
-}
-
-/* 🌌 FEATURES */
-.features {
-  padding: 80px 40px;
-  text-align: center;
-}
-
-.features h2 {
-  font-size: 36px;
-  margin-bottom: 50px;
-  color: #7df9ff;
-  text-shadow: 0 0 20px cyan;
-}
-
-/* 📦 CARD CONTAINER */
-.card-container {
+/* 🎛️ NEXT-GEN HUD (Score & Lives) */
+.hud-container {
   display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 10px;
+  max-width: 400px;
+  margin: auto;
 }
 
-/* 🧊 ADVANCED GLASS CARD */
-.card {
-  width: 260px;
-  padding: 25px;
-  border-radius: 20px;
-
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-
-  border: 1px solid rgba(0,255,255,0.3);
-
-  box-shadow:
-    0 0 20px rgba(0,255,255,0.2),
-    inset 0 0 10px rgba(255,255,255,0.1);
-
-  position: relative;
-  overflow: hidden;
-
-  transition: 0.5s;
+.hud-item {
+  background: var(--glass);
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 0 15px rgba(0, 247, 255, 0.1);
 }
 
-/* ✨ SHINE EFFECT */
-.card::before {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-  transform: translateX(-100%);
-  transition: 0.5s;
+.hud-label {
+  font-size: 10px;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  display: block;
 }
 
-.card:hover::before {
-  transform: translateX(100%);
-}
-
-/* 🌀 HOVER */
-.card:hover {
-  transform: translateY(-15px) scale(1.08);
-  box-shadow: 0 0 60px cyan;
-}
-
-/* 🪐 CARD TITLE */
-.card h3 {
-  color: #7df9ff;
-  margin-bottom: 10px;
-}
-
-/* 📄 CARD TEXT */
-.card p {
-  font-size: 14px;
-  color: #ccc;
-}
-
-/* 🌊 FLOAT ANIMATION */
-.card {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0px); }
-}
-
-@media (max-width: 600px) {
-  .navbar {
-    padding: 15px 20px;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .logo {
-    font-size: 18px;
-  }
-
-  .nav-links a {
-    margin: 0 10px;
-    font-size: 14px;
-  }
-
-  .hero h1 {
-    font-size: 40px; /* Smaller title for mobile */
-  }
+.hud-value {
+  font-size: 22px;
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--neon-cyan);
 }
