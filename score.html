@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Records - Inferno Cosmos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>Hall of Fame - Inferno Cosmos</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,16 +19,16 @@
     <section class="hero">
         <h1 style="font-size: 50px;">GALACTIC RECORDS</h1>
         <div class="card" style="margin: 40px auto; max-width: 450px;">
-            <p style="font-size: 12px; letter-spacing: 3px; color: cyan; text-transform: uppercase;">Personal Best</p>
+            <p style="font-size: 11px; letter-spacing: 3px; color: #00f7ff; text-transform: uppercase;">Confirmed Kills</p>
             <h2 id="highScore" style="font-size: 80px; margin: 10px 0;">0</h2>
-            <p id="rank-text" style="font-style: italic; color: #ccc;">Status: Scanning...</p>
+            <p id="rank-text" style="font-style: italic; color: #ccc;">Status: Scanning Pilot Data...</p>
         </div>
 
         <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
             <a href="game.html" style="text-decoration: none;">
                 <button class="cta-btn">RE-DEPLOY</button>
             </a>
-            <button onclick="resetScore()" style="background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 10px; border-radius: 20px; font-family: 'Orbitron'; cursor: pointer;">WIPE DATA</button>
+            <button onclick="resetScore()" style="background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-family: 'Orbitron';">WIPE RECORDS</button>
         </div>
     </section>
 
@@ -37,12 +36,14 @@
         let highScore = localStorage.getItem("highScore") || 0;
         document.getElementById("highScore").innerText = highScore;
         const rankText = document.getElementById("rank-text");
-        if (highScore >= 50) rankText.innerText = "Rank: Galactic Legend";
-        else if (highScore >= 20) rankText.innerText = "Rank: Veteran Striker";
-        else rankText.innerText = "Rank: Rookie Pilot";
+        
+        if (highScore >= 100) rankText.innerText = "Rank: Galactic Legend";
+        else if (highScore >= 50) rankText.innerText = "Rank: Veteran Striker";
+        else if (highScore >= 10) rankText.innerText = "Rank: Combat Pilot";
+        else rankText.innerText = "Rank: Rookie Recruit";
 
         function resetScore() {
-            if(confirm("Delete records?")) {
+            if(confirm("Confirm deletion of tactical records?")) {
                 localStorage.setItem("highScore", 0);
                 location.reload();
             }
