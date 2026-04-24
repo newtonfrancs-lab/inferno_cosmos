@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFERNO COSMOS | Command Center</title>
+    <title>INFERNO COSMOS | Deployment</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,52 +16,66 @@
     <div class="navbar">
         <div class="logo">INFERNO COSMOS</div>
         <div class="nav-links">
-            <a href="about.html">Mission Intel</a>
+            <a href="about.html">Intel</a>
             <a href="controls.html">Manual</a>
-            <a href="score.html">Hall of Fame</a>
+            <a href="score.html">Scores</a>
         </div>
     </div>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>INFERNO COSMOS</h1>
-            <p>
-                The deep-space frontier is under heavy bombardment. 
-                Synchronize your neural links and prepare for immediate deployment 
-                against the biomechanical swarm.
-            </p>
+            <h1 style="text-shadow: 0 0 20px #00f7ff; letter-spacing: 5px;">INFERNO COSMOS</h1>
             
-            <div class="jet-preview" style="margin: 40px auto; font-size: 100px; filter: drop-shadow(0 0 30px #00f7ff); animation: float 4s ease-in-out infinite;">
+            <div class="card" style="margin: 30px auto; max-width: 600px; background: rgba(0,0,0,0.7); border-top: 2px solid #00f7ff;">
+                <p style="font-size: 14px; line-height: 1.8; color: #ccc;">
+                    <span style="color: #00f7ff;">[LOG_START]</span> 
+                    The deep-space frontier is under heavy bombardment. Synchronize your neural links and prepare for immediate deployment against the biomechanical swarm.
+                    <span style="color: #00f7ff;">[LOG_END]</span>
+                </p>
+            </div>
+            
+            <div class="jet-preview" style="margin: 40px auto; font-size: 90px; filter: drop-shadow(0 0 30px #00f7ff); animation: shipFloat 3s ease-in-out infinite;">
                 🚀
             </div>
 
-            <a href="Game.html" style="text-decoration: none;">
-                <button class="cta-btn">INITIALIZE MISSION</button>
+            <a href="game.html" style="text-decoration: none;">
+                <button class="cta-btn" style="padding: 20px 50px; font-size: 18px;">INITIALIZE MISSION</button>
             </a>
         </div>
 
-        <div class="card-container" style="margin-top: 80px;">
-            <div class="card">
-                <h3>Adaptive AI</h3>
-                <p>The swarm evolves. Enemy velocity scales with your tactical performance.</p>
+        <div class="card-container" style="margin-top: 60px;">
+            <div class="card" style="border-top: 2px solid #00f7ff;">
+                <span class="hud-label" style="font-size: 10px; color: #00f7ff;">AI STATUS</span>
+                <h3 style="margin-top: 10px;">ADAPTIVE</h3>
+                <p style="font-size: 12px; color: #888;">Enemy velocity scales with kills.</p>
             </div>
             
-            <div class="card" style="border-color: #bc13fe;">
-                <h3>Quantum HUD</h3>
-                <p>Real-time hull diagnostics and tactical score synchronization.</p>
+            <div class="card" style="border-top: 2px solid #bc13fe;">
+                <span class="hud-label" style="font-size: 10px; color: #bc13fe;">SYSTEMS</span>
+                <h3 style="margin-top: 10px;">QUANTUM HUD</h3>
+                <p style="font-size: 12px; color: #888;">Real-time hull diagnostics active.</p>
             </div>
 
-            <div class="card">
-                <h3>Cross-Platform</h3>
-                <p>Optimized for both desktop keyboard combat and mobile touch maneuvers.</p>
+            <div class="card" style="border-top: 2px solid #ff4d4d;">
+                <span class="hud-label" style="font-size: 10px; color: #ff4d4d;">DANGER LEVEL</span>
+                <h3 style="margin-top: 10px;">CRITICAL</h3>
+                <p style="font-size: 12px; color: #888;">Collision results in hull breach.</p>
             </div>
         </div>
     </section>
 
-    <footer style="margin-top: 60px; padding-bottom: 40px; opacity: 0.4; font-family: 'Orbitron'; font-size: 11px; text-align: center; letter-spacing: 2px;">
-        <span style="color: #00f7ff;">●</span> SYSTEM STATUS: STABLE | <span style="color: #00f7ff;">●</span> ENCRYPTED LINK ACTIVE
+    <footer style="margin-top: 60px; padding-bottom: 40px; opacity: 0.5; font-family: 'Orbitron'; font-size: 10px; text-align: center; letter-spacing: 2px;">
+        <span style="color: #00f7ff;">●</span> SYSTEM STATUS: ONLINE | <span style="color: #00f7ff;">●</span> FREQUENCY: 433.92MHz
     </footer>
+
+    <style>
+        @keyframes shipFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+    </style>
 
 </body>
 </html>
+
 
