@@ -28,62 +28,225 @@
     font-size: clamp(40px, 8vw, 80px); /* Responsive sizing */
 }
 
+/* 🚀 INFERNO COSMOS - GLOBAL THEME */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 :root {
   --neon-cyan: #00f7ff;
   --neon-purple: #bc13fe;
+  --deep-space: #020111;
+  --nebula: rgba(188, 19, 254, 0.15);
   --glass: rgba(255, 255, 255, 0.03);
   --border: rgba(0, 247, 255, 0.2);
 }
 
-body {
-  background: radial-gradient(circle at center, #0d1117 0%, #000000 100%);
-  overflow-x: hidden;
-  font-family: 'Orbitron', sans-serif; /* Recommended: Import from Google Fonts */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* 💠 CYBER-PUNK NAVBAR */
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: var(--deep-space);
+  color: white;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* 🌌 DEEP SPACE BACKGROUND ANIMATION */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 200%; height: 200%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0));
+  background-size: 200px 200px;
+  animation: spaceMove 100s linear infinite;
+  opacity: 0.3;
+  z-index: -3;
+}
+
+@keyframes spaceMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+/* 💫 FLOATING NEBULA ORBS */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: -2;
+  opacity: 0.5;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+.orb1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, var(--nebula), transparent);
+  top: -10%; left: -10%;
+}
+
+.orb2 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0, 247, 255, 0.1), transparent);
+  bottom: -10%; right: -10%;
+}
+
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(50px, 100px) scale(1.1); }
+}
+
+/* ✨ CYBER NAVBAR */
 .navbar {
-  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(15px);
   border-bottom: 1px solid var(--border);
-  padding: 15px 40px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 15px var(--neon-cyan);
+}
+
+.nav-links a {
+  color: #aaa;
+  text-decoration: none;
+  margin-left: 25px;
+  font-size: 13px;
   text-transform: uppercase;
-  background: linear-gradient(to right, var(--neon-cyan), #fff);
+  transition: 0.3s;
+  letter-spacing: 1px;
+}
+
+.nav-links a:hover {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* 🚀 HERO SECTION */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 10vw, 75px);
+  background: linear-gradient(to bottom, #fff, var(--neon-cyan));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px var(--neon-cyan));
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 20px rgba(0, 247, 255, 0.5));
 }
 
-/* 🎛️ NEXT-GEN HUD (Score & Lives) */
-.hud-container {
+.hero p {
+  color: #ccc;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* 🧊 GLASS-MORPHISM CARDS */
+.card-container {
   display: flex;
-  justify-content: space-around;
-  padding: 10px;
-  max-width: 400px;
-  margin: auto;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.hud-item {
+.card {
   background: var(--glass);
-  padding: 10px 20px;
-  border-radius: 10px;
+  backdrop-filter: blur(10px);
   border: 1px solid var(--border);
-  box-shadow: inset 0 0 15px rgba(0, 247, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  width: 300px;
+  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
 }
 
-.hud-label {
-  font-size: 10px;
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: 0.5s;
+}
+
+.card:hover::before { left: 100%; }
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 10px 30px rgba(0, 247, 255, 0.2);
+}
+
+.card h3 {
   color: var(--neon-cyan);
-  text-transform: uppercase;
-  display: block;
+  margin-bottom: 15px;
+  font-size: 18px;
 }
 
-.hud-value {
-  font-size: 22px;
+/* 🔘 NEON BUTTON */
+.cta-btn {
+  background: transparent;
+  color: var(--neon-cyan);
+  border: 2px solid var(--neon-cyan);
+  padding: 15px 40px;
+  font-family: 'Orbitron', sans-serif;
   font-weight: bold;
+  font-size: 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
+}
+
+.cta-btn:hover {
+  background: var(--neon-cyan);
+  color: black;
+  box-shadow: 0 0 40px var(--neon-cyan);
+  transform: scale(1.05);
+}
+
+/* 📱 MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links a {
+    margin: 0 10px;
+    font-size: 11px;
+  }
+  
+  .hero { padding: 40px 15px; }
+}
   text-shadow: 0 0 10px var(--neon-cyan);
 }
