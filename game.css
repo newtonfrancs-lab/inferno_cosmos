@@ -15,17 +15,20 @@ h2, h3 {
 
 /* 🌌 UPDATED GAME AREA */
 .gameArea {
-  width: 95vw;          /* Uses 95% of viewport width */
-  max-width: 400px;     /* Prevents it from getting too big on desktop */
-  height: 80vh;         /* Uses 80% of viewport height */
-  margin: 10px auto;
+  width: 90vw;
+  max-width: 450px;
+  height: 75vh;
+  margin: 20px auto;
   position: relative;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 20px;
   overflow: hidden;
-  border-radius: 12px;
-  background: black;
-  border: 2px solid cyan;
-  box-shadow: 0 0 20px cyan;
-  touch-action: none;   /* Prevents the screen from scrolling while playing */
+  /* Holographic Scanline Effect */
+  background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 3px 100%;
+  box-shadow: 0 0 40px rgba(0, 247, 255, 0.15);
 }
 
 /* ✨ STAR BACKGROUND */
@@ -44,23 +47,20 @@ h2, h3 {
   to { transform: translateY(600px); }
 }
 
-/* ✈️ JET */
+/* 🚀 THE JET (Advanced Vector Look) */
 .jet {
-  width: 40px;
+  width: 50px;
   height: 50px;
-  background: linear-gradient(cyan, #00bcd4);
-  position: absolute;
-  bottom: 20px;
-  left: 175px;
-
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  box-shadow: 0 0 15px cyan;
-  transition: 0.1s;
+  background: none;
+  filter: drop-shadow(0 0 15px var(--neon-cyan));
 }
 
-/* 💥 CRASH EFFECT */
-.crash {
-  animation: flash 0.3s alternate 4;
+/* Use a Pseudo-element to draw a futuristic jet shape */
+.jet::after {
+  content: "▲";
+  font-size: 40px;
+  color: var(--neon-cyan);
+  display: block;
 }
 
 @keyframes flash {
@@ -68,34 +68,29 @@ h2, h3 {
   to { background: cyan; }
 }
 
-/* 👾 ENEMY */
+/* 👾 ENEMIES (Glitch Effect) */
 .enemy {
-  position: absolute;
-  font-size: 30px;
-  width: 40px;
-  height: 40px;
-
-  text-align: center;
-  line-height: 40px;
-
-  text-shadow: 0 0 10px red;
-  animation: enemyFloat 1.5s infinite ease-in-out alternate;
+  font-size: 35px;
+  filter: drop-shadow(0 0 10px red);
+  animation: glitch 0.5s infinite;
 }
 
-@keyframes enemyFloat {
-  from { transform: translateY(0px); }
-  to { transform: translateY(8px); }
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
 }
 
-/* 🔫 BULLET */
+/* 🔫 BULLETS */
 .bullet {
-  width: 5px;
-  height: 15px;
-  background: yellow;
-  position: absolute;
-
-  box-shadow: 0 0 10px yellow;
-  border-radius: 2px;
+  width: 4px;
+  height: 20px;
+  background: #fff;
+  box-shadow: 0 0 15px var(--neon-cyan), 0 0 5px #fff;
+  border-radius: 10px;
 }
 
 /* 🔙 BUTTON */
