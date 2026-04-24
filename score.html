@@ -3,68 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intel - Inferno Cosmos</title>
-    
+    <title>Records - Inferno Cosmos</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="orb orb1"></div>
     <div class="orb orb2"></div>
-
     <div class="navbar">
         <div class="logo">INFERNO COSMOS</div>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="controls.html">Controls</a>
-            <a href="score.html">Scores</a>
-            <a href="game.html">Play</a>
+            <a href="Game.html">Play</a>
         </div>
     </div>
 
     <section class="hero">
-        <h1 style="font-size: 50px;">MISSION INTEL</h1>
-
-        <div class="card" style="margin: 30px auto; max-width: 600px; text-align: left;">
-            <h3 style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px;">
-                PROJECT OVERVIEW
-            </h3>
-            <p>
-                <strong>INFERNO COSMOS</strong> is a high-velocity arcade simulation designed to test the reflexes of elite pilots. 
-                As the lone survivor of the 7th Galactic Squadron, your objective is simple: 
-                <span style="color: var(--neon-cyan);">Neutralize all incoming biomechanical threats</span> and protect the sector.
-            </p>
-            <br>
-            <p>
-                The simulation features <strong>Adaptive Difficulty</strong>: as you eliminate more targets, the enemy swarm increases in velocity and density.
-            </p>
+        <h1 style="font-size: 50px;">GALACTIC RECORDS</h1>
+        <div class="card" style="margin: 40px auto; max-width: 450px;">
+            <p style="font-size: 12px; letter-spacing: 3px; color: cyan; text-transform: uppercase;">Personal Best</p>
+            <h2 id="highScore" style="font-size: 80px; margin: 10px 0;">0</h2>
+            <p id="rank-text" style="font-style: italic; color: #ccc;">Status: Scanning...</p>
         </div>
 
-        <div class="card" style="margin: 40px auto; max-width: 400px; border-color: var(--neon-purple);">
-            <h3 style="color: var(--neon-purple);">👨‍💻 CHIEF ARCHITECT</h3>
-            <p style="font-size: 20px; color: white; letter-spacing: 2px;">NEWTON VITAL</p>
-            
-            <hr style="border: 0; border-top: 1px solid rgba(188, 19, 254, 0.3); margin: 20px 0;">
-
-            <p style="font-size: 12px; text-transform: uppercase; color: #888;">Social Uplink</p>
-            <p>
-                <a href="https://instagram.com/nxwtxn" target="_blank" style="color: var(--neon-cyan); text-decoration: none; font-weight: bold;">
-                    @nxwtxn
-                </a>
-            </p>
-
-            <br>
-
-            <p style="font-size: 12px; text-transform: uppercase; color: #888;">Direct Frequency</p>
-            <p style="font-family: monospace; color: #ccc;">newtonfrancs@gmail.com</p>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+            <a href="game.html" style="text-decoration: none;">
+                <button class="cta-btn">RE-DEPLOY</button>
+            </a>
+            <button onclick="resetScore()" style="background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 10px; border-radius: 20px; font-family: 'Orbitron'; cursor: pointer;">WIPE DATA</button>
         </div>
-
-        <a href="game.html" style="text-decoration: none;">
-            <button class="cta-btn" style="background: linear-gradient(45deg, #bc13fe, #7df9ff);">BACK TO COCKPIT</button>
-        </a>
     </section>
 
+    <script>
+        let highScore = localStorage.getItem("highScore") || 0;
+        document.getElementById("highScore").innerText = highScore;
+        const rankText = document.getElementById("rank-text");
+        if (highScore >= 50) rankText.innerText = "Rank: Galactic Legend";
+        else if (highScore >= 20) rankText.innerText = "Rank: Veteran Striker";
+        else rankText.innerText = "Rank: Rookie Pilot";
+
+        function resetScore() {
+            if(confirm("Delete records?")) {
+                localStorage.setItem("highScore", 0);
+                location.reload();
+            }
+        }
+    </script>
 </body>
 </html>
