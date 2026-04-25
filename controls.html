@@ -3,36 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controls - Inferno Cosmos</title>
+    <title>INFERNO COSMOS | System Manual</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="orb orb1"></div>
-    <div class="navbar">
+    <div class="stars"></div>
+    <div class="warp-drive"></div>
+
+    <nav class="navbar">
         <div class="logo">INFERNO COSMOS</div>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="Game.html">Play</a>
         </div>
-    </div>
+    </nav>
 
     <section class="hero">
-        <h1>SYSTEM MANUAL</h1>
+        <h1 style="font-family: 'Orbitron'; font-size: 3rem; text-shadow: 0 0 20px var(--neon-cyan);">SYSTEM MANUAL</h1>
+        <p style="color: #888; margin-bottom: 40px;">Pilot Interface & Tactical Engagement Protocol</p>
+
         <div class="card-container">
             <div class="card">
-                <h3>⌨️ Desktop</h3>
-                <p>Arrow Keys: Navigate Jet</p>
-                <p>Spacebar: Fire Plasma</p>
+                <h3 style="color: var(--neon-cyan); margin-bottom: 15px;">⌨️ DESKTOP</h3>
+                <p><strong>ARROWS:</strong> Horizontal Navigation</p>
+                <p><strong>SPACEBAR:</strong> Fire Plasma Bolts</p>
             </div>
-            <div class="card">
-                <h3>📱 Mobile</h3>
-                <p>Drag: Strategic Flight</p>
-                <p>Tap: Fire Plasma</p>
+
+            <div class="card" style="border-left-color: var(--neon-purple);">
+                <h3 style="color: var(--neon-purple); margin-bottom: 15px;">📱 MOBILE</h3>
+                <p><strong>DRAG:</strong> Strategic Flight</p>
+                <p><strong>TAP:</strong> Engage Weaponry</p>
             </div>
-            <div class="card" style="border-color: #ff4d4d;">
-                <h3>⚠️ Hazard</h3>
-                <p>Colliding with enemies will cause total hull collapse.</p>
+
+            <div class="card" style="border-left-color: var(--neon-red);">
+                <h3 style="color: var(--neon-red); margin-bottom: 15px;">⚠️ THREATS</h3>
+                <p><strong>CONTACT:</strong> Total Hull Collapse</p>
+                <p><strong>MISSED:</strong> Loss of Integrity Points</p>
             </div>
+        </div>
+
+        <div style="margin-top: 50px;">
+            <a href="Game.html" style="text-decoration: none;">
+                <button class="cta-btn">BACK TO COCKPIT</button>
+            </a>
         </div>
     </section>
 </body>
