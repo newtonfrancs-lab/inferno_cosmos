@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap');
 
 :root {
   --neon-cyan: #00f7ff;
@@ -7,74 +7,59 @@
   --bg-dark: #020205;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
 
 body {
   background: var(--bg-dark);
   color: white;
   font-family: 'Rajdhani', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100vh;
 }
 
-/* 🌌 STARFIELD ANIMATION */
-.stars, .twinkling {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: block;
-}
-
+/* 🌌 PARALLAX STARFIELD */
 .stars {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
   z-index: -2;
 }
 
-.twinkling {
-  background: transparent url('https://www.transparenttextures.com/patterns/black-thread.png') repeat;
+.warp-drive {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: transparent url('https://www.transparenttextures.com/patterns/white-diamond.png') repeat;
+  opacity: 0.1;
   z-index: -1;
-  opacity: 0.2;
-  animation: move-twink 200s linear infinite;
+  animation: warp 10s linear infinite;
 }
 
-@keyframes move-twink {
-  from { background-position: 0 0; }
-  to { background-position: -10000px 5000px; }
+@keyframes warp {
+  from { transform: scale(1) translateY(0); }
+  to { transform: scale(1.5) translateY(1000px); }
 }
 
+/* 🛸 UI DESIGN */
 .navbar {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 15px 5%; background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+  padding: 15px 5%; background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px); border-bottom: 2px solid var(--neon-cyan);
+  box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
 }
 
 .logo {
-  font-family: 'Orbitron'; font-weight: 700; color: var(--neon-cyan);
-  text-shadow: 0 0 10px var(--neon-cyan); letter-spacing: 3px;
+  font-family: 'Orbitron'; font-weight: 900; color: var(--neon-cyan);
+  text-shadow: 0 0 15px var(--neon-cyan); letter-spacing: 5px;
+  font-size: 1.2rem;
 }
-
-.nav-links a {
-  color: #888; text-decoration: none; margin-left: 20px;
-  text-transform: uppercase; font-size: 11px; transition: 0.3s;
-}
-
-.nav-links a:hover { color: var(--neon-cyan); }
-
-.hero { padding: 60px 5%; text-align: center; }
 
 .cta-btn {
-  background: transparent; color: var(--neon-cyan);
-  border: 1px solid var(--neon-cyan); padding: 15px 40px;
-  font-family: 'Orbitron'; cursor: pointer; transition: 0.3s;
-  letter-spacing: 2px;
+  background: rgba(0, 247, 255, 0.1); color: var(--neon-cyan);
+  border: 1px solid var(--neon-cyan); padding: 12px 30px;
+  font-family: 'Orbitron'; cursor: pointer; transition: 0.4s;
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
 }
 
-.cta-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 30px var(--neon-cyan); }
-
-.jet-preview { font-size: 80px; margin: 30px 0; animation: float 3s ease-in-out infinite; }
-
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-
-.card-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 50px; }
-
-.card {
-  background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 247, 255, 0.1); border-left: 4px solid var(--neon-cyan);
-  padding: 20px; width: 280px; text-align: left;
+.cta-btn:hover {
+  background: var(--neon-cyan); color: #000;
+  box-shadow: 0 0 40px var(--neon-cyan);
+  transform: scale(1.05);
 }
