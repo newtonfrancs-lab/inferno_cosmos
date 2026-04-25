@@ -1,30 +1,127 @@
+/* 🚀 INFERNO COSMOS - TACTICAL COMBAT UI */
+
+:root {
+  --neon-cyan: #00f7ff;
+  --neon-purple: #bc13fe;
+  --neon-red: #ff4d4d;
+  --glass: rgba(255, 255, 255, 0.05);
+  --border: rgba(0, 247, 255, 0.2);
+}
+
+body {
+  margin: 0;
+  background: #000;
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  text-align: center;
+  overflow: hidden; /* Prevents accidental scrolling during play */
+  touch-action: none;
+}
+
+/* 📊 HUD (Heads-Up Display) */
+.hud-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+  position: relative;
+}
+
+.hud-item {
+  background: var(--glass);
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  min-width: 120px;
+  border-top: 2px solid var(--neon-cyan); /* Tactical Accent */
+}
+
+.hud-label {
+  font-size: 9px;
+  color: var(--neon-cyan);
+  text-transform: uppercase;
+  display: block;
+  letter-spacing: 2px;
+}
+
+.hud-value {
+  font-size: 22px;
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* 🌌 THE COMBAT ZONE */
 .gameArea {
-  width: 95vw; max-width: 500px; height: 70vh;
-  margin: 10px auto; position: relative;
-  background: radial-gradient(circle at center, #0a0a20 0%, #000 100%);
-  border: 1px solid var(--neon-cyan); border-radius: 15px; overflow: hidden;
+  width: 95vw;
+  max-width: 480px;
+  height: 70vh;
+  margin: 15px auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: radial-gradient(circle at center, #0d1117 0%, #000 100%);
+  border: 2px solid var(--border);
+  box-shadow: 0 0 40px rgba(0, 247, 255, 0.1);
+  touch-action: none; /* ESSENTIAL for mobile movement */
+  cursor: crosshair;
 }
 
-.gameArea::before {
-  content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0,0,0,0.1) 50%);
-  background-size: 100% 4px; pointer-events: none; z-index: 10;
+/* ✨ CRT SCANLINES (The "Glass" Effect) */
+.gameArea::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+              linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none; /* IMPORTANT: Allows clicks/touches to pass through to the game */
+  z-index: 20;
 }
 
-.hud-container { display: flex; justify-content: center; gap: 15px; padding: 15px; }
-.hud-item { background: rgba(0,0,0,0.8); border: 1px solid var(--neon-cyan); padding: 8px 20px; border-radius: 4px; }
-.cyan-border { border-top: 3px solid var(--neon-cyan); }
-.red-border { border-top: 3px solid var(--neon-red); }
-.hud-label { font-size: 10px; color: #888; display: block; }
-.hud-value { font-family: 'Orbitron'; font-size: 20px; }
-
+/* ✈️ THE JET */
 .jet {
-  width: 40px; height: 40px; position: absolute; bottom: 30px;
-  background: #fff; clip-path: polygon(50% 0%, 100% 100%, 50% 85%, 0% 100%);
-  filter: drop-shadow(0 0 10px var(--neon-cyan));
-  transition: transform 0.1s;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(0 0 15px var(--neon-cyan));
+  z-index: 10;
+  will-change: left; /* Optimizes mobile performance */
 }
 
+.jet::after {
+  content: "▲"; 
+  font-size: 40px;
+  color: #fff;
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* 👾 ALIEN ENEMY */
+.enemy {
+  position: absolute;
+  font-size: 35px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  z-index: 5;
+  filter: drop-shadow(0 0 10px var(--neon-red));
+  animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+/* 🔫 PLASMA BULLET (Highly Visible) */
 .bullet {
   width: 4px;
   height: 20px;
@@ -32,58 +129,53 @@
   position: absolute;
   border-radius: 10px;
   box-shadow: 0 0 15px var(--neon-cyan), 0 0 5px #fff;
-  z-index: 6; /* Ensure it's above the background but below the HUD */
+  z-index: 8;
 }
 
-.enemy { 
-  position: absolute; 
-  font-size: 32px; 
-  /* Purple neon glow to match the 👾 emoji */
-  filter: drop-shadow(0 0 10px var(--neon-purple)) drop-shadow(0 0 5px #fff); 
-  will-change: top;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#game-overlay-msg {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.95); padding: 30px; border: 2px solid var(--neon-red);
-  text-align: center; z-index: 100; width: 80%; border-radius: 10px;
-}
-
-/* Bullet and Jet are now handled via JS for position, 
-   but we need the particle style */
-
-.particle {
+/* 💥 EXPLOSION */
+.explosion {
   position: absolute;
-  width: 5px; 
-  height: 5px;
-  background: var(--neon-purple); /* Changed from cyan to purple */
-  border-radius: 50%;
+  font-size: 40px;
+  z-index: 15;
   pointer-events: none;
-  box-shadow: 0 0 8px var(--neon-purple), 0 0 12px #fff;
-  will-change: left, top, opacity;
+  animation: explode 0.4s ease-out forwards;
 }
 
-.jet {
-    width: 44px;
-    height: 44px;
-    position: absolute;
-    bottom: 30px;
-    background: #fff;
-    clip-path: polygon(50% 0%, 100% 100%, 50% 85%, 0% 100%);
-    filter: drop-shadow(0 0 15px var(--neon-cyan));
-    
-    /* CRITICAL: Remove transition on 'left' so JS handles it instantly */
-    /* Only transition the tilt/transform */
-    transition: transform 0.2s ease-out; 
-    will-change: left, transform;
-    z-index: 20;
+@keyframes explode {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
 }
 
-/* Force hardware acceleration for enemies */
-.enemy, .bullet {
-    will-change: top, bottom, left;
+/* 🔙 MISSION FAILED OVERLAY */
+#game-overlay-msg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  z-index: 100;
+  pointer-events: auto; /* Ensures you can click the Redeploy button */
+}
+
+/* 📳 SCREEN SHAKE */
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-4px, 4px); }
+  50% { transform: translate(4px, -4px); }
+  75% { transform: translate(-4px, -4px); }
+  100% { transform: translate(0,0); }
+}
+
+/* 📱 MOBILE FIXES */
+@media (max-width: 600px) {
+  .gameArea {
+    height: 60vh; /* More room for thumbs */
+  }
+  .hud-item {
+    min-width: 100px;
+    padding: 8px 10px;
+  }
+  .hud-value {
+    font-size: 18px;
+  }
 }
