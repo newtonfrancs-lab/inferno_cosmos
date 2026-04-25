@@ -5,96 +5,104 @@
   --neon-purple: #bc13fe;
   --neon-red: #ff4d4d;
   --bg-dark: #020205;
+  --card-glass: rgba(255, 255, 255, 0.03);
 }
 
-.hero h1 {
-  /* This ensures the font is never smaller than 28px, 
-     scales with screen width (8vw), and never exceeds 75px */
-  font-size: clamp(28px, 8vw, 75px);
-  
-  background: linear-gradient(to bottom, #fff, var(--neon-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  
-  margin-bottom: 20px;
-  filter: drop-shadow(0 0 20px rgba(0, 247, 255, 0.5));
-  
-  /* Prevents long words from breaking the container */
-  word-wrap: break-word;
-  line-height: 1.1;
-  letter-spacing: 2px;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: default; }
 
 body {
   background: var(--bg-dark);
   color: white;
   font-family: 'Rajdhani', sans-serif;
   overflow-x: hidden;
+  /* Dynamic radial glow that follows the theme */
+  background: radial-gradient(circle at 50% 50%, #0a0a2e 0%, #020205 100%);
 }
 
-/* 🌌 SPACE ANIMATION */
-.stars {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
-  z-index: -2;
+/* ✨ ADVANCED PROCEDURAL STARFIELD */
+body::before {
+  content: "";
+  position: fixed;
+  width: 2px; height: 2px;
+  background: transparent;
+  /* Creates 100s of stars using shadow-box alone */
+  box-shadow: 10vw 20vh #fff, 30vw 45vh #fff, 70vw 15vh #fff, 90vw 80vh #fff, 20vw 90vh #fff, 50vw 50vh #fff;
+  animation: twinkle 5s infinite;
 }
 
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* 🚀 HYPERSPACE OVERLAY */
 .warp-drive {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: transparent url('https://www.transparenttextures.com/patterns/white-diamond.png') repeat;
-  opacity: 0.08; z-index: -1;
-  animation: warp 10s linear infinite;
+  background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0, 247, 255, 0.05) 3px, transparent 3px);
+  background-size: 100% 4px;
+  z-index: -1;
+  animation: moveWarp 20s linear infinite;
 }
 
-@keyframes warp { from { transform: translateY(-1000px); } to { transform: translateY(1000px); } }
+@keyframes moveWarp { from { background-position: 0 0; } to { background-position: 0 1000px; } }
 
+/* 💎 GLASS-MORPHISM NAVBAR */
 .navbar {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 15px 5%; background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px); border-bottom: 2px solid var(--neon-cyan);
+  padding: 15px 5%;
+  background: rgba(2, 2, 5, 0.7);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(0, 247, 255, 0.3);
+  position: sticky; top: 0; z-index: 1000;
 }
 
-.logo { font-family: 'Orbitron'; font-weight: 900; color: var(--neon-cyan); letter-spacing: 4px; }
-
-.nav-links a { color: #888; text-decoration: none; margin-left: 20px; font-size: 11px; text-transform: uppercase; }
-
-.hero { padding: 60px 5%; text-align: center; }
-
-.glitch-text { font-family: 'Orbitron'; font-size: 3.5rem; text-shadow: 0 0 20px var(--neon-cyan); }
-
-.jet-preview {
-  width: 50px; height: 50px; margin: 30px auto;
-  background: white; clip-path: polygon(50% 0%, 100% 100%, 50% 80%, 0% 100%);
-  animation: float 3s ease-in-out infinite;
+.logo { 
+  font-family: 'Orbitron'; font-weight: 900; color: var(--neon-cyan); 
+  letter-spacing: 4px; text-shadow: 0 0 10px var(--neon-cyan);
 }
 
-@keyframes float { 50% { transform: translateY(-20px) rotate(5deg); } }
-
+/* 💠 CYBER BUTTONS */
 .cta-btn {
-  background: transparent; color: var(--neon-cyan); border: 1px solid var(--neon-cyan);
-  padding: 15px 40px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s;
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+  background: transparent; color: var(--neon-cyan); 
+  border: 1px solid var(--neon-cyan);
+  padding: 15px 40px; font-family: 'Orbitron'; 
+  text-transform: uppercase; letter-spacing: 2px;
+  position: relative; overflow: hidden;
+  clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+  transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-.cta-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 30px var(--neon-cyan); }
+.cta-btn::before {
+  content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.4), transparent);
+  transition: 0.5s;
+}
 
-.card-container { display: flex; gap: 20px; justify-content: center; margin-top: 50px; flex-wrap: wrap; }
-.card { background: rgba(255,255,255,0.05); padding: 20px; width: 260px; border-left: 4px solid var(--neon-cyan); text-align: left; }
-.card.purple { border-left-color: var(--neon-purple); }
-.card.red { border-left-color: var(--neon-red); }
+.cta-btn:hover::before { left: 100%; }
 
+.cta-btn:hover {
+  background: rgba(0, 247, 255, 0.1);
+  box-shadow: 0 0 20px var(--neon-cyan);
+  transform: scale(1.05);
+}
 
-@media (max-width: 480px) {
-  .hero h1 {
-    font-size: 32px; /* Fixed size for very small screens */
-    letter-spacing: 1px;
-    padding: 0 10px; /* Gives the text a little breathing room from the edges */
-  }
-  
-  .hero-content {
-    width: 100%;
-    padding: 0 15px;
-  }
+/* 📱 ADVANCED CARDS */
+.card {
+  background: var(--card-glass);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.card::after {
+  content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px;
+  border-top: 2px solid var(--neon-cyan); border-left: 2px solid var(--neon-cyan);
+}
+
+.card:hover {
+  background: rgba(0, 247, 255, 0.05);
+  transform: translateY(-5px);
+  border-color: var(--neon-cyan);
 }
