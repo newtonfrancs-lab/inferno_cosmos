@@ -26,9 +26,13 @@
 }
 
 .bullet {
-  position: absolute; width: 3px; height: 20px;
-  background: linear-gradient(to top, var(--neon-cyan), #fff);
-  box-shadow: 0 0 10px var(--neon-cyan); border-radius: 5px;
+  width: 4px;
+  height: 20px;
+  background: #fff;
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--neon-cyan), 0 0 5px #fff;
+  z-index: 6; /* Ensure it's above the background but below the HUD */
 }
 
 .enemy { 
