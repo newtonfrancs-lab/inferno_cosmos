@@ -192,22 +192,24 @@ window.onload = function () {
   }
 
   function endGame() {
-    if (gameOver) return;
-    gameOver = true;
-    clearInterval(spawnInterval);
-    
-    jet.style.display = "none";
-    
-    let highScore = localStorage.getItem("highScore") || 0;
-    if (score > highScore) localStorage.setItem("highScore", score);
+  if (gameOver) return;
+  gameOver = true;
+  clearInterval(spawnInterval);
+  
+  jet.style.display = "none";
+  
+  // ADD THIS LINE: This makes the box appear
+  overlay.style.display = "block"; 
 
-    overlay.innerHTML = `
-      <div style="text-align:center; animation: fadeIn 0.5s ease;">
-        <h1 style="color:var(--neon-red); text-shadow: 0 0 20px var(--neon-red); font-size: 2rem;">CRITICAL FAILURE</h1>
-        <p style="color:#888; margin: 15px 0; font-family: 'Orbitron';">TACTICAL SCORE: ${score}</p>
-        <button onclick="location.reload()" class="cta-btn" style="border-color:var(--neon-red); color:var(--neon-red);">REDEPLOY</button>
-      </div>`;
-  }
+  let highScore = localStorage.getItem("highScore") || 0;
+  if (score > highScore) localStorage.setItem("highScore", score);
 
+  overlay.innerHTML = `
+    <div style="text-align:center;">
+      <h1 style="color:#fff; text-shadow: 0 0 15px var(--neon-red); font-size: 2rem;">CRITICAL FAILURE</h1>
+      <p style="color:#888; margin: 15px 0; font-family: 'Orbitron';">TACTICAL SCORE: ${score}</p>
+      <button onclick="location.reload()" class="cta-btn" style="border-color:var(--neon-red); color:var(--neon-red);">REDEPLOY</button>
+    </div>`;
+}
   let spawnInterval = setInterval(createEnemy, 1000);
 };
