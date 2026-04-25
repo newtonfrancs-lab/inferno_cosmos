@@ -7,6 +7,24 @@
   --bg-dark: #020205;
 }
 
+.hero h1 {
+  /* This ensures the font is never smaller than 28px, 
+     scales with screen width (8vw), and never exceeds 75px */
+  font-size: clamp(28px, 8vw, 75px);
+  
+  background: linear-gradient(to bottom, #fff, var(--neon-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 20px rgba(0, 247, 255, 0.5));
+  
+  /* Prevents long words from breaking the container */
+  word-wrap: break-word;
+  line-height: 1.1;
+  letter-spacing: 2px;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
