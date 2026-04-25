@@ -36,16 +36,27 @@ window.onload = function () {
         });
     }
 
-    function createEnemy() {
+function createEnemy() {
         if (gameOver) return;
         const enemyEl = document.createElement("div");
         enemyEl.className = "enemy";
-        enemyEl.innerText = "🛸";
+        
+        // SETTING THE PURPLE ALIEN EMOJI
+        enemyEl.innerText = "👾"; 
+        
         const x = Math.random() * (gameArea.offsetWidth - 40);
         enemyEl.style.left = x + "px";
         gameArea.appendChild(enemyEl);
-        enemies.push({ el: enemyEl, x: x, y: -50 });
+        
+        enemies.push({ 
+            el: enemyEl, 
+            x: x, 
+            y: -50 
+        });
     }
+
+    // Inside your update() function, ensure the collision uses this buffer:
+    // if (!(jetRect.top + 18 > enRect.bottom - 18 || ... ))
 
     function createExplosion(x, y) {
         // Create 8-10 debris particles
