@@ -84,3 +84,17 @@ body {
 .card { background: rgba(255,255,255,0.05); padding: 20px; width: 260px; border-left: 4px solid var(--neon-cyan); text-align: left; }
 .card.purple { border-left-color: var(--neon-purple); }
 .card.red { border-left-color: var(--neon-red); }
+
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 32px; /* Fixed size for very small screens */
+    letter-spacing: 1px;
+    padding: 0 10px; /* Gives the text a little breathing room from the edges */
+  }
+  
+  .hero-content {
+    width: 100%;
+    padding: 0 15px;
+  }
+}
