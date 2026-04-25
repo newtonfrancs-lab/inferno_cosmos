@@ -11,63 +11,74 @@ window.onload = function () {
   let gameOver = false;
   let enemySpeed = 4;
   let keys = {};
+  let lastShotTime = 0;
+  const shotDelay = 200; // Rapid fire response
 
   // --- ⌨️ KEYBOARD ENGINE ---
   document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
     if (e.code === "Space") {
       e.preventDefault();
-      shoot();
+      handleFire();
     }
   });
   document.addEventListener("keyup", (e) => { keys[e.key] = false; });
 
-  // --- 🖱️ & 📱 UNIVERSAL SHOOTING (THE FIX) ---
-  // We attach this to 'window' to ensure it captures every tap/click
-  window.addEventListener("mousedown", (e) => {
-    if (!gameOver && e.target.closest('#gameArea')) shoot();
-  });
+  // --- 📱 MOBILE & MOUSE ENGINE ---
+  function handleTouch(e) {
+    if (gameOver) return;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const rect = gameArea.getBoundingClientRect();
+    
+    // Centering the jet on touch/cursor
+    jetX = (clientX - rect.left) - (jet.offsetWidth / 2);
 
-  window.addEventListener("touchstart", (e) => {
-    if (!gameOver && e.target.closest('#gameArea')) {
-      e.preventDefault(); // Stop mobile zoom/scroll
-      shoot();
-      handleTouch(e);
-    }
+    // Boundary constraints
+    if (jetX < 0) jetX = 0;
+    if (jetX > rect.width - jet.offsetWidth) jetX = rect.width - jet.offsetWidth;
+
+    jet.style.left = jetX + "px";
+  }
+
+  gameArea.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    handleTouch(e);
+    handleFire();
   }, { passive: false });
 
-  window.addEventListener("touchmove", (e) => {
-    if (!gameOver) handleTouch(e);
+  gameArea.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    handleTouch(e);
   }, { passive: false });
 
-  // --- ✈️ MOVEMENT ENGINE ---
+  // --- ✈️ CORE GAME LOOP ---
   function gameLoop() {
     if (gameOver) return;
+    
+    // Desktop smooth movement
     if (keys["ArrowLeft"] && jetX > 0) jetX -= 8;
     if (keys["ArrowRight"] && jetX < gameArea.offsetWidth - jet.offsetWidth) jetX += 8;
+    
     jet.style.left = jetX + "px";
     requestAnimationFrame(gameLoop);
   }
   requestAnimationFrame(gameLoop);
 
-  function handleTouch(e) {
-    const touch = e.touches[0];
-    const rect = gameArea.getBoundingClientRect();
-    jetX = (touch.clientX - rect.left) - (jet.offsetWidth / 2);
-    if (jetX < 0) jetX = 0;
-    if (jetX > rect.width - jet.offsetWidth) jetX = rect.width - jet.offsetWidth;
-    jet.style.left = jetX + "px";
+  // --- 🔫 WEAPONRY ---
+  function handleFire() {
+    const now = Date.now();
+    if (now - lastShotTime > shotDelay) {
+      shoot();
+      lastShotTime = now;
+    }
   }
 
-  // --- 🔫 THE SHOOT FUNCTION ---
   function shoot() {
     if (gameOver) return;
-    console.log("BANG!"); // If you see this in console, the code works!
 
     const bullet = document.createElement("div");
     bullet.className = "bullet";
     
-    // Positioning bullet at the nose of the jet
     let bX = jetX + (jet.offsetWidth / 2) - 2;
     let bY = jet.offsetTop - 10;
 
@@ -76,7 +87,7 @@ window.onload = function () {
     gameArea.appendChild(bullet);
 
     let moveBullet = setInterval(() => {
-      bY -= 15; // Increased speed
+      bY -= 15;
       bullet.style.top = bY + "px";
 
       if (bY < -20 || gameOver) {
@@ -84,53 +95,90 @@ window.onload = function () {
         bullet.remove();
       }
 
-      // Collision Detection
       document.querySelectorAll(".enemy").forEach(enemy => {
         if (isColliding(bullet, enemy)) {
           createExplosion(enemy.offsetLeft, enemy.offsetTop);
           enemy.remove();
           bullet.remove();
           clearInterval(moveBullet);
-          score++;
-          scoreDisplay.innerText = score;
-          if (score % 10 === 0) enemySpeed += 0.5;
+          updateScore();
         }
       });
     }, 20);
   }
 
-  // --- 👾 ENEMY & GAME LOGIC ---
+  // --- 👾 ENEMY SYSTEMS ---
   function createEnemy() {
     if (gameOver) return;
+
     const enemy = document.createElement("div");
     enemy.className = "enemy";
     enemy.innerText = "👾";
+    
     let eX = Math.random() * (gameArea.offsetWidth - 40);
     let eY = -50;
+    
     enemy.style.left = eX + "px";
+    enemy.style.top = eY + "px";
     gameArea.appendChild(enemy);
 
     let moveEnemy = setInterval(() => {
-      if (gameOver) { clearInterval(moveEnemy); enemy.remove(); return; }
+      if (gameOver) {
+        clearInterval(moveEnemy);
+        enemy.remove();
+        return;
+      }
+
       eY += enemySpeed;
       enemy.style.top = eY + "px";
 
-      if (isColliding(jet, enemy, 10)) endGame();
+      // Collision with Ship
+      if (isColliding(jet, enemy, 12)) {
+        endGame();
+      }
+
+      // Passed Hull (Missed Enemy)
       if (eY > gameArea.offsetHeight) {
         clearInterval(moveEnemy);
         enemy.remove();
-        lives--;
-        livesDisplay.innerText = lives;
-        if (lives <= 0) endGame();
+        takeDamage();
       }
     }, 30);
   }
 
+  // --- 🛠️ TACTICAL UTILITIES ---
   function isColliding(a, b, buffer = 0) {
     const r1 = a.getBoundingClientRect();
     const r2 = b.getBoundingClientRect();
-    return !(r1.top+buffer > r2.bottom-buffer || r1.right-buffer < r2.left+buffer || 
-             r1.bottom-buffer < r2.top+buffer || r1.left+buffer > r2.right-buffer);
+    return !(
+      r1.top + buffer > r2.bottom - buffer ||
+      r1.right - buffer < r2.left + buffer ||
+      r1.bottom - buffer < r2.top + buffer ||
+      r1.left + buffer > r2.right - buffer
+    );
+  }
+
+  function updateScore() {
+    score++;
+    scoreDisplay.innerText = score;
+    if (score % 10 === 0) enemySpeed += 0.6;
+  }
+
+  function takeDamage() {
+    lives--;
+    livesDisplay.innerText = lives;
+    
+    // Trigger the Advanced CSS Glitch/Flicker
+    gameArea.classList.add("damaged");
+    setTimeout(() => gameArea.classList.remove("damaged"), 300);
+    
+    screenShake();
+    if (lives <= 0) endGame();
+  }
+
+  function screenShake() {
+    gameArea.style.animation = "shake 0.2s ease-in-out";
+    setTimeout(() => { gameArea.style.animation = ""; }, 200);
   }
 
   function createExplosion(x, y) {
@@ -147,25 +195,19 @@ window.onload = function () {
     if (gameOver) return;
     gameOver = true;
     clearInterval(spawnInterval);
+    
     jet.style.display = "none";
+    
+    let highScore = localStorage.getItem("highScore") || 0;
+    if (score > highScore) localStorage.setItem("highScore", score);
+
     overlay.innerHTML = `
-      <div style="text-align:center;">
-        <h1 style="color:#ff4d4d; text-shadow: 0 0 20px #ff4d4d;">MISSION FAILED</h1>
-        <button onclick="location.reload()" class="cta-btn" style="border-color:#ff4d4d; color:#ff4d4d;">REDEPLOY</button>
+      <div style="text-align:center; animation: fadeIn 0.5s ease;">
+        <h1 style="color:var(--neon-red); text-shadow: 0 0 20px var(--neon-red); font-size: 2rem;">CRITICAL FAILURE</h1>
+        <p style="color:#888; margin: 15px 0; font-family: 'Orbitron';">TACTICAL SCORE: ${score}</p>
+        <button onclick="location.reload()" class="cta-btn" style="border-color:var(--neon-red); color:var(--neon-red);">REDEPLOY</button>
       </div>`;
   }
-
-  function loseLife() {
-  lives--;
-  livesDisplay.innerText = lives;
-  
-  // Trigger the CSS Glitch effect
-  gameArea.classList.add("damaged");
-  setTimeout(() => gameArea.classList.remove("damaged"), 400);
-
-  screenShake();
-  if (lives <= 0) endGame();
-}
 
   let spawnInterval = setInterval(createEnemy, 1000);
 };
