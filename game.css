@@ -1,210 +1,105 @@
-/* 🚀 INFERNO COSMOS - TACTICAL COMBAT UI */
+window.onload = function () {
+    const jet = document.getElementById("jet");
+    const gameArea = document.getElementById("gameArea");
+    const scoreDisplay = document.getElementById("score");
+    const livesDisplay = document.getElementById("lives");
 
-:root {
-  --neon-cyan: #00f7ff;
-  --neon-purple: #bc13fe;
-  --neon-red: #ff4d4d;
-  --glass: rgba(255, 255, 255, 0.05);
-  --border: rgba(0, 247, 255, 0.2);
-}
+    let jetX = 225;
+    let score = 0;
+    let lives = 3;
+    let gameOver = false;
+    let enemySpeed = 3;
 
-body {
-  margin: 0;
-  background: black;
-  font-family: 'Orbitron', sans-serif;
-  color: white;
-  text-align: center;
-  overflow: hidden; /* Critical for intense mobile play */
-}
+    // Movement
+    document.addEventListener("keydown", (e) => {
+        if (gameOver) return;
+        if (e.key === "ArrowLeft" && jetX > 0) jetX -= 20;
+        if (e.key === "ArrowRight" && jetX < gameArea.offsetWidth - 50) jetX += 20;
+        if (e.key === " ") shoot();
+        jet.style.left = jetX + "px";
+    });
 
-/* 📊 HUD */
-.hud-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-}
+    function shoot() {
+        if (gameOver) return;
+        const bullet = document.createElement("div");
+        bullet.className = "bullet";
+        bullet.style.left = (jetX + 23) + "px";
+        bullet.style.bottom = "80px";
+        gameArea.appendChild(bullet);
 
-.hud-item {
-  background: rgba(0,0,0,0.8);
-  border: 1px solid var(--border);
-  padding: 10px 20px;
-  text-align: center;
-  border-top: 3px solid var(--neon-cyan);
-}
+        let bMove = setInterval(() => {
+            let bBottom = parseInt(bullet.style.bottom);
+            bullet.style.bottom = (bBottom + 10) + "px";
 
-.hud-label { font-size: 10px; color: var(--neon-cyan); letter-spacing: 2px; }
-.hud-value { font-family: 'Orbitron'; font-size: 1.5rem; display: block; }
+            if (bBottom > gameArea.offsetHeight) {
+                clearInterval(bMove);
+                bullet.remove();
+            }
 
-.hud-item::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 2px;
-  background: var(--neon-cyan);
-  box-shadow: 0 0 10px var(--neon-cyan);
-}
+            document.querySelectorAll(".enemy").forEach(en => {
+                if (isColliding(bullet, en, 0)) {
+                    en.remove();
+                    bullet.remove();
+                    clearInterval(bMove);
+                    score += 1;
+                    scoreDisplay.innerText = score;
+                    if (score % 10 === 0) enemySpeed += 0.5;
+                }
+            });
+        }, 20);
+    }
 
-.hud-label {
-  font-size: 10px;
-  color: var(--neon-cyan);
-  text-transform: uppercase;
-  display: block;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
-}
+    function createEnemy() {
+        if (gameOver) return;
+        const enemy = document.createElement("div");
+        enemy.className = "enemy";
+        enemy.innerText = "👾";
+        enemy.style.left = Math.random() * (gameArea.offsetWidth - 40) + "px";
+        enemy.style.top = "-50px";
+        gameArea.appendChild(enemy);
 
-.hud-value {
-  font-size: 26px;
-  font-weight: bold;
-  text-shadow: 0 0 15px var(--neon-cyan);
-}
+        let eMove = setInterval(() => {
+            if (gameOver) { clearInterval(eMove); enemy.remove(); return; }
+            let eTop = parseInt(enemy.style.top);
+            enemy.style.top = (eTop + enemySpeed) + "px";
 
-.gameArea {
-  width: 95vw;
-  max-width: 500px;
-  height: 70vh;
-  margin: 30px auto;
-  position: relative;
-  background: #050505;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: inset 0 0 50px #000, 0 0 40px rgba(0, 247, 255, 0.1);
-}
+            // If enemy passes player
+            if (eTop > gameArea.offsetHeight) {
+                clearInterval(eMove);
+                enemy.remove();
+                lives--;
+                livesDisplay.innerText = lives;
+                if (lives <= 0) endGame();
+            }
 
-/* 📺 SCANLINE OVERLAY */
-.gameArea::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  background-size: 100% 3px, 3px 100%;
-  z-index: 10;
-  pointer-events: none;
-}
+            // HITBOX BUFFER: Added 15px safety margin to prevent "fake" deaths
+            if (isColliding(jet, enemy, 15)) {
+                endGame();
+            }
+        }, 30);
+    }
 
-/* 📺 CRT SCANLINE & GRID OVERLAY */
-.gameArea::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: 
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-  background-size: 100% 4px, 4px 100%;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0.6;
-}
+    function isColliding(a, b, buffer) {
+        let aRect = a.getBoundingClientRect();
+        let bRect = b.getBoundingClientRect();
+        return !(
+            aRect.top + buffer > bRect.bottom - buffer ||
+            aRect.bottom - buffer < bRect.top + buffer ||
+            aRect.right - buffer < bRect.left + buffer ||
+            aRect.left + buffer > bRect.right - buffer
+        );
+    }
 
-/* ✈️ THE JET (Vector Design) */
-.jet {
-  width: 55px;
-  height: 55px;
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  filter: drop-shadow(0 0 20px var(--neon-cyan));
-  z-index: 5;
-  transition: left 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
+    function endGame() {
+        gameOver = true;
+        document.getElementById("game-overlay-msg").innerHTML = `
+            <div style="text-align:center; background:rgba(0,0,0,0.9); padding:30px; border:1px solid var(--neon-red); border-radius:15px;">
+                <h1 style="color:var(--neon-red); font-family:Orbitron;">MISSION ABORTED</h1>
+                <p>SCORE: ${score}</p>
+                <button onclick="location.reload()" class="cta-btn" style="margin-top:20px; border-color:var(--neon-red); color:var(--neon-red);">REDEPLOY</button>
+            </div>
+        `;
+    }
 
-.jet::after {
-  content: "▲";
-  font-size: 48px;
-  color: #fff;
-  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
-}
-
-/* 👾 ALIEN ENEMY (Pulsing Glitch) */
-.enemy {
-  position: absolute;
-  font-size: 38px;
-  width: 45px;
-  height: 45px;
-  text-align: center;
-  line-height: 45px;
-  filter: drop-shadow(0 0 15px var(--neon-red));
-  animation: enemyBreathe 0.6s infinite alternate ease-in-out;
-}
-
-@keyframes enemyBreathe {
-  from { transform: scale(1); filter: hue-rotate(0deg) brightness(1); }
-  to { transform: scale(1.15); filter: hue-rotate(45deg) brightness(1.3); }
-}
-
-/* 🔫 PLASMA BULLET */
-.bullet {
-  width: 5px;
-  height: 22px;
-  background: #fff;
-  position: absolute;
-  border-radius: 10px;
-  box-shadow: 0 0 15px var(--neon-cyan), 0 0 5px #fff;
-}
-
-/* 💥 EXPLOSION PARTICLE */
-.explosion {
-  position: absolute;
-  font-size: 40px;
-  pointer-events: none;
-  animation: fadeOut 0.4s forwards;
-}
-
-@keyframes fadeOut {
-  from { transform: scale(0.5); opacity: 1; }
-  to { transform: scale(2); opacity: 0; }
-}
-
-/* 📳 SCREEN SHAKE */
-@keyframes shake {
-  0%, 100% { transform: translate(0, 0); }
-  20% { transform: translate(-5px, 3px); }
-  40% { transform: translate(5px, -3px); }
-  60% { transform: translate(-5px, -3px); }
-  80% { transform: translate(5px, 3px); }
-}
-
-#game-overlay-msg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  padding: 40px 20px;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--neon-red);
-  border-radius: 20px;
-  box-shadow: 0 0 40px rgba(255, 77, 77, 0.2);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* 📱 MOBILE ADJUSTMENTS */
-@media (max-width: 600px) {
-  .gameArea {
-    height: 60vh; /* Adjust for better visibility with thumbs on screen */
-    margin-top: 10px;
-  }
-  
-  .hud-item {
-    min-width: 110px;
-    padding: 8px 15px;
-  }
-
-  .hud-value {
-    font-size: 20px;
-  }
-}
+    setInterval(createEnemy, 1000);
+};
