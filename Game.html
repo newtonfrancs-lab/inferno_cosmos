@@ -9,25 +9,21 @@
 </head>
 <body>
     <div class="stars"></div>
-
-    <nav class="navbar">
-        <div class="logo">INFERNO COSMOS</div>
-        <div class="nav-links"><a href="index.html">Abort Mission</a></div>
-    </nav>
+    <div class="warp-drive"></div>
 
     <div class="hud-container">
-        <div class="hud-item" style="border-top: 3px solid #00f7ff;">
-            <span class="hud-label">TACTICAL SCORE</span>
+        <div class="hud-item cyan-border">
+            <span class="hud-label">SCORE</span>
             <span class="hud-value" id="score">0</span>
         </div>
-        <div class="hud-item" style="border-top: 3px solid #ff4d4d;">
-            <span class="hud-label" style="color: #ff4d4d;">HULL INTEGRITY</span>
+        <div class="hud-item red-border">
+            <span class="hud-label">HULL</span>
             <span class="hud-value" id="lives">3</span>
         </div>
     </div>
 
     <div class="gameArea" id="gameArea">
-        <div class="jet" id="jet">🚀</div>
+        <div class="jet" id="jet"></div>
         <div id="game-overlay-msg"></div>
     </div>
 
