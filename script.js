@@ -95,15 +95,23 @@ window.onload = function () {
         bullet.remove();
       }
 
-      document.querySelectorAll(".enemy").forEach(enemy => {
-        if (isColliding(bullet, enemy)) {
-          createExplosion(enemy.offsetLeft, enemy.offsetTop);
-          enemy.remove();
-          bullet.remove();
-          clearInterval(moveBullet);
-          updateScore();
-        }
-      });
+// --- UPDATED COLLISION LOGIC INSIDE shoot() ---
+document.querySelectorAll(".enemy").forEach(enemy => {
+  if (isColliding(bullet, enemy)) {
+    // 1. Capture the exact location before anything is removed
+    const targetX = enemy.offsetLeft + (enemy.offsetWidth / 2);
+    const targetY = enemy.offsetTop + (enemy.offsetHeight / 2);
+
+    // 2. Trigger explosion at that spot
+    createExplosion(targetX, targetY);
+
+    // 3. Remove actors
+    enemy.remove();
+    bullet.remove();
+    clearInterval(moveBullet);
+    updateScore();
+  }
+});
     }, 20);
   }
 
@@ -181,21 +189,20 @@ window.onload = function () {
     setTimeout(() => { gameArea.style.animation = ""; }, 200);
   }
 
+// --- UPDATED EXPLOSION GENERATOR ---
 function createExplosion(x, y) {
   const exp = document.createElement("div");
   exp.className = "explosion";
-  exp.innerHTML = "💥"; // Using innerHTML for better rendering
+  exp.innerHTML = "💥"; 
   
-  // Positioning at the center of the impact
+  // Center the explosion on the impact point
   exp.style.left = x + "px";
   exp.style.top = y + "px";
   
   gameArea.appendChild(exp);
 
-  // Clean up the DOM after animation finishes
-  setTimeout(() => {
-    exp.remove();
-  }, 500);
+  // Remove from DOM after animation
+  setTimeout(() => exp.remove(), 500);
 }
 
   function endGame() {
