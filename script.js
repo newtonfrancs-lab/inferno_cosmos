@@ -181,15 +181,22 @@ window.onload = function () {
     setTimeout(() => { gameArea.style.animation = ""; }, 200);
   }
 
-  function createExplosion(x, y) {
-    const exp = document.createElement("div");
-    exp.className = "explosion";
-    exp.innerText = "💥";
-    exp.style.left = x + "px";
-    exp.style.top = y + "px";
-    gameArea.appendChild(exp);
-    setTimeout(() => exp.remove(), 400);
-  }
+function createExplosion(x, y) {
+  const exp = document.createElement("div");
+  exp.className = "explosion";
+  exp.innerHTML = "💥"; // Using innerHTML for better rendering
+  
+  // Positioning at the center of the impact
+  exp.style.left = x + "px";
+  exp.style.top = y + "px";
+  
+  gameArea.appendChild(exp);
+
+  // Clean up the DOM after animation finishes
+  setTimeout(() => {
+    exp.remove();
+  }, 500);
+}
 
   function endGame() {
   if (gameOver) return;
