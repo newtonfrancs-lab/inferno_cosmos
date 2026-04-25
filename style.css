@@ -8,101 +8,66 @@
   --card-glass: rgba(255, 255, 255, 0.03);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; cursor: default; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   background: var(--bg-dark);
+  background: radial-gradient(circle at 50% 50%, #0a0a2e 0%, #020205 100%);
   color: white;
   font-family: 'Rajdhani', sans-serif;
   overflow-x: hidden;
-  /* Dynamic radial glow that follows the theme */
-  background: radial-gradient(circle at 50% 50%, #0a0a2e 0%, #020205 100%);
+  min-height: 100vh;
 }
 
-/* ✨ ADVANCED PROCEDURAL STARFIELD */
+/* --- ADVANCED BACKGROUNDS --- */
 body::before {
-  content: "";
-  position: fixed;
-  width: 2px; height: 2px;
-  background: transparent;
-  /* Creates 100s of stars using shadow-box alone */
-  box-shadow: 10vw 20vh #fff, 30vw 45vh #fff, 70vw 15vh #fff, 90vw 80vh #fff, 20vw 90vh #fff, 50vw 50vh #fff;
-  animation: twinkle 5s infinite;
+  content: ""; position: fixed; width: 2px; height: 2px; background: transparent;
+  box-shadow: 10vw 20vh #fff, 35vw 45vh #fff, 70vw 15vh #fff, 90vw 80vh #fff, 20vw 90vh #fff, 50vw 50vh #fff, 85vw 55vh #fff;
+  animation: twinkle 5s infinite; z-index: -3;
 }
+@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-
-/* 🚀 HYPERSPACE OVERLAY */
 .warp-drive {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0, 247, 255, 0.05) 3px, transparent 3px);
-  background-size: 100% 4px;
-  z-index: -1;
-  animation: moveWarp 20s linear infinite;
+  background-size: 100% 4px; z-index: -1; animation: moveWarp 15s linear infinite;
 }
-
 @keyframes moveWarp { from { background-position: 0 0; } to { background-position: 0 1000px; } }
 
-/* 💎 GLASS-MORPHISM NAVBAR */
+/* --- NAVIGATION --- */
 .navbar {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 15px 5%;
-  background: rgba(2, 2, 5, 0.7);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(0, 247, 255, 0.3);
-  position: sticky; top: 0; z-index: 1000;
+  padding: 20px 5%; background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+}
+.logo { font-family: 'Orbitron'; font-weight: 900; color: var(--neon-cyan); letter-spacing: 4px; text-shadow: 0 0 10px var(--neon-cyan); }
+.nav-links a { color: #888; text-decoration: none; margin-left: 20px; font-size: 12px; text-transform: uppercase; transition: 0.3s; }
+.nav-links a:hover { color: var(--neon-cyan); }
+
+/* --- CENTERED HERO SECTION --- */
+.hero { 
+  padding: 80px 5%; display: flex; flex-direction: column; align-items: center; text-align: center; 
+}
+.glitch-text { 
+  font-family: 'Orbitron'; font-size: clamp(32px, 9vw, 72px); 
+  background: linear-gradient(to bottom, #fff, var(--neon-cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 20px; text-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
 }
 
-.logo { 
-  font-family: 'Orbitron'; font-weight: 900; color: var(--neon-cyan); 
-  letter-spacing: 4px; text-shadow: 0 0 10px var(--neon-cyan);
-}
-
-/* 💠 CYBER BUTTONS */
 .cta-btn {
-  background: transparent; color: var(--neon-cyan); 
-  border: 1px solid var(--neon-cyan);
-  padding: 15px 40px; font-family: 'Orbitron'; 
-  text-transform: uppercase; letter-spacing: 2px;
-  position: relative; overflow: hidden;
-  clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
-  transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+  background: transparent; color: var(--neon-cyan); border: 1px solid var(--neon-cyan);
+  padding: 18px 50px; font-family: 'Orbitron'; cursor: pointer; transition: 0.4s;
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); letter-spacing: 2px;
 }
+.cta-btn:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 30px var(--neon-cyan); transform: scale(1.05); }
 
-.cta-btn::before {
-  content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(0, 247, 255, 0.4), transparent);
-  transition: 0.5s;
+/* --- ADAPTIVE CARDS --- */
+.card-container { display: flex; gap: 20px; justify-content: center; margin-top: 50px; flex-wrap: wrap; width: 100%; max-width: 1200px; }
+.card { 
+  background: var(--card-glass); backdrop-filter: blur(10px); padding: 30px; width: 300px; 
+  border-left: 4px solid var(--neon-cyan); text-align: left; position: relative; transition: 0.3s; 
 }
-
-.cta-btn:hover::before { left: 100%; }
-
-.cta-btn:hover {
-  background: rgba(0, 247, 255, 0.1);
-  box-shadow: 0 0 20px var(--neon-cyan);
-  transform: scale(1.05);
-}
-
-/* 📱 ADVANCED CARDS */
-.card {
-  background: var(--card-glass);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  position: relative;
-  transition: 0.3s;
-}
-
-.card::after {
-  content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px;
-  border-top: 2px solid var(--neon-cyan); border-left: 2px solid var(--neon-cyan);
-}
-
-.card:hover {
-  background: rgba(0, 247, 255, 0.05);
-  transform: translateY(-5px);
-  border-color: var(--neon-cyan);
-}
+.card:hover { transform: translateY(-10px); background: rgba(0, 247, 255, 0.05); }
+.card.purple { border-left-color: var(--neon-purple); }
+.card.red { border-left-color: var(--neon-red); }
