@@ -38,3 +38,27 @@
   background: rgba(0, 0, 0, 0.95); padding: 30px; border: 2px solid var(--neon-red);
   text-align: center; z-index: 100; width: 80%; border-radius: 10px;
 }
+
+/* Bullet and Jet are now handled via JS for position, 
+   but we need the particle style */
+
+.particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-purple);
+}
+
+/* Ensure smooth rotation of the jet */
+.jet {
+    transition: transform 0.15s ease-out; /* Slight lag for organic feel */
+    will-change: transform, left;
+}
+
+/* Force hardware acceleration for enemies */
+.enemy, .bullet {
+    will-change: top, bottom, left;
+}
