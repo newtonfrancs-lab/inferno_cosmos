@@ -72,6 +72,7 @@ body::before {
   0%, 100% { opacity: 0.4; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.2); }
 }
+
 /* --- NAVIGATION --- */
 .navbar {
   display: flex; justify-content: space-between; align-items: center;
