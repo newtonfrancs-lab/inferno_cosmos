@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFERNO COSMOS | Home</title>
+    <title>INFERNO COSMOS | Command Center</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,33 +14,42 @@
         <div class="logo">INFERNO COSMOS</div>
         <div class="nav-links">
             <a href="about.html">Intel</a>
-            <a href="score.html">Scores</a>
             <a href="controls.html">Manual</a>
+            <a href="score.html">Hall of Fame</a>
         </div>
     </nav>
 
-    <main class="hero">
-        <h1 class="glitch-text">TACTICAL DEPLOYMENT</h1>
-        <p class="sub-text">Neural links synchronized. Sector 7 is under biomechanical siege.</p>
-        
-        <div class="jet-preview"></div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="glitch-text">TACTICAL DEPLOYMENT</h1>
+            <p style="color: #aaa; max-width: 600px; margin: 0 auto 30px;">
+                Neural link established. The sector is under heavy bombardment by biomechanical entities. Prepare for immediate jump.
+            </p>
+            
+            <div class="jet-preview"></div>
 
-        <a href="Game.html"><button class="cta-btn">Initialize Mission</button></a>
+            <a href="game.html" style="text-decoration: none;">
+                <button class="cta-btn">INITIATE WARP</button>
+            </a>
+        </div>
 
         <div class="card-container">
             <div class="card">
-                <h3>Adaptive AI</h3>
-                <p>Enemy frequency and velocity scale with pilot skill.</p>
+                <span style="color: var(--neon-cyan); font-size: 10px; letter-spacing: 2px;">STATUS: ACTIVE</span>
+                <h3 style="margin: 10px 0;">ADAPTIVE AI</h3>
+                <p style="font-size: 13px; opacity: 0.7;">Enemy swarm velocity scales with confirmed kills.</p>
             </div>
             <div class="card purple">
-                <h3>Holo-HUD</h3>
-                <p>Real-time hull integrity and tactical diagnostics.</p>
+                <span style="color: var(--neon-purple); font-size: 10px; letter-spacing: 2px;">SYSTEMS: ONLINE</span>
+                <h3 style="margin: 10px 0;">QUANTUM HUD</h3>
+                <p style="font-size: 13px; opacity: 0.7;">Real-time diagnostics and neural-score tracking.</p>
             </div>
             <div class="card red">
-                <h3>Zero Tolerance</h3>
-                <p>Critical impact leads to total mission failure.</p>
+                <span style="color: var(--neon-red); font-size: 10px; letter-spacing: 2px;">DANGER: CRITICAL</span>
+                <h3 style="margin: 10px 0;">HULL BREACH</h3>
+                <p style="font-size: 13px; opacity: 0.7;">Direct collision results in immediate mission failure.</p>
             </div>
         </div>
-    </main>
+    </section>
 </body>
 </html>
