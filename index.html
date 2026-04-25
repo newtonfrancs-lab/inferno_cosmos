@@ -3,36 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFERNO COSMOS | Home</title>
+    <title>INFERNO COSMOS | Command Center</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
     <nav class="navbar">
         <div class="logo">INFERNO COSMOS</div>
         <div class="nav-links">
             <a href="about.html">Intel</a>
-            <a href="score.html">Scores</a>
+            <a href="score.html">Hall of Fame</a>
         </div>
     </nav>
 
-    <main style="padding: 100px 5%; text-align: center;">
-        <h1 style="font-family: 'Orbitron'; font-size: 4rem; margin-bottom: 20px; text-shadow: 0 0 30px var(--neon-cyan);">TACTICAL DEPLOYMENT</h1>
-        <p style="color: #888; max-width: 600px; margin: 0 auto 40px;">System synchronized. Neural links active. The biomechanical swarm is approaching Sector 7. Pilot status: <strong>READY</strong>.</p>
-        
-        <a href="Game.html"><button class="cta-btn">Start Mission</button></a>
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="glitch" data-text="TACTICAL DEPLOYMENT">TACTICAL DEPLOYMENT</h1>
+            <p>Neural links synchronized. The biomechanical swarm is approaching Sector 7. Pilot status: <strong>READY</strong>.</p>
+            
+            <div class="jet-preview">🚀</div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 80px;">
+            <a href="Game.html" style="text-decoration: none;">
+                <button class="cta-btn">INITIALIZE MISSION</button>
+            </a>
+        </div>
+
+        <div class="card-container">
             <div class="card">
                 <h3>Adaptive AI</h3>
-                <p>Enemy frequency and velocity scale with pilot skill.</p>
+                <p>Enemy frequency and velocity scale with pilot skill levels.</p>
             </div>
-            <div class="card" style="border-left-color: var(--neon-purple);">
-                <h3>Holo-HUD</h3>
-                <p>Real-time hull integrity and tactical score diagnostics.</p>
+            <div class="card" style="border-left-color: #bc13fe;">
+                <h3>Quantum HUD</h3>
+                <p>Real-time hull diagnostics and tactical score synchronization.</p>
             </div>
-            <div class="card" style="border-left-color: var(--neon-red);">
+            <div class="card" style="border-left-color: #ff4d4d;">
                 <h3>Zero Tolerance</h3>
-                <p>One hull breach leads to total mission failure.</p>
+                <p>One hull breach leads to total mission failure. Watch the perimeter.</p>
             </div>
         </div>
     </main>
