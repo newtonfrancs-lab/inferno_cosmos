@@ -3,34 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Combat - Inferno Cosmos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>INFERNO COSMOS | Combat</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="game.css">
 </head>
 <body>
-
-    <div class="navbar">
+    <nav class="navbar">
         <div class="logo">INFERNO COSMOS</div>
-        <div class="nav-links">
-            <a href="index.html">Abort</a>
-            <a href="score.html">Scores</a>
-        </div>
-    </div>
+        <div class="nav-links"><a href="index.html">Abort Mission</a></div>
+    </nav>
 
     <div class="hud-container">
         <div class="hud-item">
-            <span class="hud-label">Tactical Score</span>
+            <span class="hud-label">TACTICAL SCORE</span>
             <span class="hud-value" id="score">0</span>
         </div>
-        <div class="hud-item" style="border-color: #ff4d4d;">
-            <span class="hud-label" style="color: #ff4d4d;">Hull Integrity</span>
+        <div class="hud-item" style="border-top-color: var(--neon-red);">
+            <span class="hud-label">HULL INTEGRITY</span>
             <span class="hud-value" id="lives">3</span>
         </div>
     </div>
 
     <div class="gameArea" id="gameArea">
-        <div class="jet" id="jet"></div>
+        <div class="jet" id="jet">🚀</div>
+        <div id="game-overlay-msg"></div>
     </div>
 
     <script src="script.js"></script>
