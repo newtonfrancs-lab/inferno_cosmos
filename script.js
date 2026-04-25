@@ -155,5 +155,17 @@ window.onload = function () {
       </div>`;
   }
 
+  function loseLife() {
+  lives--;
+  livesDisplay.innerText = lives;
+  
+  // Trigger the CSS Glitch effect
+  gameArea.classList.add("damaged");
+  setTimeout(() => gameArea.classList.remove("damaged"), 400);
+
+  screenShake();
+  if (lives <= 0) endGame();
+}
+
   let spawnInterval = setInterval(createEnemy, 1000);
 };
