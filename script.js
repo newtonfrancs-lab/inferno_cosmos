@@ -4,17 +4,17 @@ window.onload = function () {
     const scoreDisplay = document.getElementById("score");
     const livesDisplay = document.getElementById("lives");
 
-    let jetX = 225;
+    let jetX = gameArea.offsetWidth / 2 - 25;
     let score = 0;
     let lives = 3;
     let gameOver = false;
-    let enemySpeed = 3;
+    let enemySpeed = 3.5;
 
-    // Movement
+    // Movement Logic
     document.addEventListener("keydown", (e) => {
         if (gameOver) return;
-        if (e.key === "ArrowLeft" && jetX > 0) jetX -= 20;
-        if (e.key === "ArrowRight" && jetX < gameArea.offsetWidth - 50) jetX += 20;
+        if (e.key === "ArrowLeft" && jetX > 0) jetX -= 25;
+        if (e.key === "ArrowRight" && jetX < gameArea.offsetWidth - 50) jetX += 25;
         if (e.key === " ") shoot();
         jet.style.left = jetX + "px";
     });
@@ -23,13 +23,13 @@ window.onload = function () {
         if (gameOver) return;
         const bullet = document.createElement("div");
         bullet.className = "bullet";
-        bullet.style.left = (jetX + 23) + "px";
+        bullet.style.left = (jetX + 22) + "px";
         bullet.style.bottom = "80px";
         gameArea.appendChild(bullet);
 
         let bMove = setInterval(() => {
             let bBottom = parseInt(bullet.style.bottom);
-            bullet.style.bottom = (bBottom + 10) + "px";
+            bullet.style.bottom = (bBottom + 12) + "px";
 
             if (bBottom > gameArea.offsetHeight) {
                 clearInterval(bMove);
@@ -41,7 +41,7 @@ window.onload = function () {
                     en.remove();
                     bullet.remove();
                     clearInterval(bMove);
-                    score += 1;
+                    score++;
                     scoreDisplay.innerText = score;
                     if (score % 10 === 0) enemySpeed += 0.5;
                 }
@@ -63,7 +63,6 @@ window.onload = function () {
             let eTop = parseInt(enemy.style.top);
             enemy.style.top = (eTop + enemySpeed) + "px";
 
-            // If enemy passes player
             if (eTop > gameArea.offsetHeight) {
                 clearInterval(eMove);
                 enemy.remove();
@@ -72,7 +71,8 @@ window.onload = function () {
                 if (lives <= 0) endGame();
             }
 
-            // HITBOX BUFFER: Added 15px safety margin to prevent "fake" deaths
+            // HITBOX BUFFER: We subtract 15px so the player doesn't die 
+            // from the invisible empty space around the emoji.
             if (isColliding(jet, enemy, 15)) {
                 endGame();
             }
@@ -91,15 +91,25 @@ window.onload = function () {
     }
 
     function endGame() {
+        if (gameOver) return;
         gameOver = true;
         document.getElementById("game-overlay-msg").innerHTML = `
-            <div style="text-align:center; background:rgba(0,0,0,0.9); padding:30px; border:1px solid var(--neon-red); border-radius:15px;">
-                <h1 style="color:var(--neon-red); font-family:Orbitron;">MISSION ABORTED</h1>
-                <p>SCORE: ${score}</p>
-                <button onclick="location.reload()" class="cta-btn" style="margin-top:20px; border-color:var(--neon-red); color:var(--neon-red);">REDEPLOY</button>
-            </div>
+            <h1 style="color:#ff4d4d; font-family:Orbitron;">MISSION FAILED</h1>
+            <p style="margin:10px 0;">TACTICAL SCORE: ${score}</p>
+            <button onclick="location.reload()" class="cta-btn" style="border-color:#ff4d4d; color:#ff4d4d;">REDEPLOY</button>
         `;
+        jet.style.display = "none";
     }
 
     setInterval(createEnemy, 1000);
+
+    // Mobile Support
+    gameArea.addEventListener("touchmove", (e) => {
+        let touchX = e.touches[0].clientX - gameArea.offsetLeft;
+        jetX = touchX - 25;
+        if (jetX < 0) jetX = 0;
+        if (jetX > gameArea.offsetWidth - 50) jetX = gameArea.offsetWidth - 50;
+        jet.style.left = jetX + "px";
+    });
+    gameArea.addEventListener("touchstart", (e) => { e.preventDefault(); shoot(); });
 };
