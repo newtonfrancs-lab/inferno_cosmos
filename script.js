@@ -4,96 +4,166 @@ window.onload = function () {
     const scoreDisplay = document.getElementById("score");
     const livesDisplay = document.getElementById("lives");
 
+    // Game State
     let jetX = gameArea.offsetWidth / 2 - 20;
     let score = 0;
     let lives = 3;
     let gameOver = false;
     let enemySpeed = 4;
+    let keys = {};
 
+    // Entities Arrays
+    let bullets = [];
+    let enemies = [];
+    let particles = [];
+
+    // Initialize Jet Position
     jet.style.left = jetX + "px";
 
-    document.addEventListener("keydown", (e) => {
-        if (gameOver) return;
-        if (e.key === "ArrowLeft" && jetX > 10) { jetX -= 25; jet.style.transform = "rotate(-15deg)"; }
-        if (e.key === "ArrowRight" && jetX < gameArea.offsetWidth - 50) { jetX += 25; jet.style.transform = "rotate(15deg)"; }
-        if (e.key === " ") shoot();
-        jet.style.left = jetX + "px";
-    });
-
-    document.addEventListener("keyup", () => { jet.style.transform = "rotate(0deg)"; });
+    // Event Listeners
+    document.addEventListener("keydown", (e) => { keys[e.key] = true; if(e.key === " ") shoot(); });
+    document.addEventListener("keyup", (e) => { keys[e.key] = false; jet.style.transform = "rotate(0deg)"; });
 
     function shoot() {
         if (gameOver) return;
-        const bullet = document.createElement("div");
-        bullet.className = "bullet";
-        bullet.style.left = (jetX + 18) + "px";
-        bullet.style.bottom = "75px";
-        gameArea.appendChild(bullet);
-
-        let bMove = setInterval(() => {
-            let bBottom = parseInt(bullet.style.bottom);
-            bullet.style.bottom = (bBottom + 12) + "px";
-            if (bBottom > gameArea.offsetHeight) { clearInterval(bMove); bullet.remove(); }
-
-            document.querySelectorAll(".enemy").forEach(en => {
-                if (isColliding(bullet, en, 0)) {
-                    createExplosion(en.offsetLeft, en.offsetTop);
-                    en.remove(); bullet.remove(); clearInterval(bMove);
-                    score++; scoreDisplay.innerText = score;
-                    if (score % 10 === 0) enemySpeed += 0.5;
-                }
-            });
-        }, 20);
+        const bulletEl = document.createElement("div");
+        bulletEl.className = "bullet";
+        gameArea.appendChild(bulletEl);
+        bullets.push({
+            el: bulletEl,
+            x: jetX + 21,
+            y: 75 // distance from bottom
+        });
     }
 
     function createEnemy() {
         if (gameOver) return;
-        const enemy = document.createElement("div");
-        enemy.className = "enemy";
-        enemy.innerText = "🛸";
-        enemy.style.left = Math.random() * (gameArea.offsetWidth - 40) + "px";
-        enemy.style.top = "-50px";
-        gameArea.appendChild(enemy);
-
-        let eMove = setInterval(() => {
-            if (gameOver) { clearInterval(eMove); enemy.remove(); return; }
-            let eTop = parseInt(enemy.style.top);
-            enemy.style.top = (eTop + enemySpeed) + "px";
-
-            if (eTop > gameArea.offsetHeight) {
-                clearInterval(eMove); enemy.remove();
-                lives--; livesDisplay.innerText = lives;
-                if (lives <= 0) endGame();
-            }
-
-            if (isColliding(jet, enemy, 22)) endGame();
-        }, 30);
+        const enemyEl = document.createElement("div");
+        enemyEl.className = "enemy";
+        enemyEl.innerText = "🛸";
+        const x = Math.random() * (gameArea.offsetWidth - 40);
+        enemyEl.style.left = x + "px";
+        gameArea.appendChild(enemyEl);
+        enemies.push({ el: enemyEl, x: x, y: -50 });
     }
 
     function createExplosion(x, y) {
-        const boom = document.createElement("div");
-        boom.innerText = "💥"; boom.style.position = "absolute";
-        boom.style.left = x + "px"; boom.style.top = y + "px";
-        gameArea.appendChild(boom);
-        setTimeout(() => boom.remove(), 300);
+        // Create 8-10 debris particles
+        for (let i = 0; i < 8; i++) {
+            const pEl = document.createElement("div");
+            pEl.className = "particle";
+            gameArea.appendChild(pEl);
+            
+            particles.push({
+                el: pEl,
+                x: x + 15,
+                y: y + 15,
+                velX: (Math.random() - 0.5) * 10,
+                velY: (Math.random() - 0.5) * 10,
+                life: 1.0 // opacity
+            });
+        }
     }
 
-    function isColliding(a, b, buffer) {
-        let aR = a.getBoundingClientRect();
-        let bR = b.getBoundingClientRect();
-        return !(aR.top + buffer > bR.bottom - buffer || aR.bottom - buffer < bR.top + buffer || 
-                 aR.right - buffer < bR.left + buffer || aR.left + buffer > bR.right - buffer);
+    // MAIN GAME LOOP (Smooth 60FPS)
+    function update() {
+        if (gameOver) return;
+
+        // 1. Move Jet
+        if (keys["ArrowLeft"] && jetX > 0) {
+            jetX -= 7; 
+            jet.style.transform = "rotate(-15deg)";
+        }
+        if (keys["ArrowRight"] && jetX < gameArea.offsetWidth - 45) {
+            jetX += 7;
+            jet.style.transform = "rotate(15deg)";
+        }
+        jet.style.left = jetX + "px";
+
+        // 2. Update Bullets
+        bullets.forEach((b, bIdx) => {
+            b.y += 10;
+            b.el.style.bottom = b.y + "px";
+            b.el.style.left = b.x + "px";
+
+            // Remove bullets off screen
+            if (b.y > gameArea.offsetHeight) {
+                b.el.remove();
+                bullets.splice(bIdx, 1);
+            }
+        });
+
+        // 3. Update Enemies
+        enemies.forEach((en, eIdx) => {
+            en.y += enemySpeed;
+            en.el.style.top = en.y + "px";
+
+            // Check Collision with Jet
+            const jetRect = jet.getBoundingClientRect();
+            const enRect = en.el.getBoundingClientRect();
+            
+            if (!(jetRect.top + 20 > enRect.bottom - 20 || jetRect.bottom - 20 < enRect.top + 20 || 
+                  jetRect.right - 20 < enRect.left + 20 || jetRect.left + 20 > enRect.right - 20)) {
+                endGame();
+            }
+
+            // Check Collision with Bullets
+            bullets.forEach((b, bIdx) => {
+                const bRect = b.el.getBoundingClientRect();
+                if (!(bRect.top > enRect.bottom || bRect.bottom < enRect.top || 
+                      bRect.right < enRect.left || bRect.left > enRect.right)) {
+                    
+                    createExplosion(en.x, en.y);
+                    en.el.remove();
+                    enemies.splice(eIdx, 1);
+                    b.el.remove();
+                    bullets.splice(bIdx, 1);
+                    
+                    score++;
+                    scoreDisplay.innerText = score;
+                    if (score % 10 === 0) enemySpeed += 0.3;
+                }
+            });
+
+            // Missed enemy
+            if (en.y > gameArea.offsetHeight) {
+                en.el.remove();
+                enemies.splice(eIdx, 1);
+                lives--;
+                livesDisplay.innerText = lives;
+                if (lives <= 0) endGame();
+            }
+        });
+
+        // 4. Update Particles
+        particles.forEach((p, pIdx) => {
+            p.x += p.velX;
+            p.y += p.velY;
+            p.life -= 0.02;
+            p.el.style.left = p.x + "px";
+            p.el.style.top = p.y + "px";
+            p.el.style.opacity = p.life;
+
+            if (p.life <= 0) {
+                p.el.remove();
+                particles.splice(pIdx, 1);
+            }
+        });
+
+        requestAnimationFrame(update);
     }
 
     function endGame() {
-        if (gameOver) return;
         gameOver = true;
         document.getElementById("game-overlay-msg").innerHTML = `
             <h1 style="color:var(--neon-red); font-family:Orbitron;">MISSION FAILED</h1>
-            <p style="margin:10px 0; color:#888;">SCORE: ${score}</p>
             <button onclick="location.reload()" class="cta-btn" style="border-color:var(--neon-red); color:var(--neon-red);">REDEPLOY</button>`;
         jet.style.display = "none";
     }
 
+    // Spawn cycle
     setInterval(createEnemy, 1000);
+    
+    // Start the loop
+    requestAnimationFrame(update);
 };
