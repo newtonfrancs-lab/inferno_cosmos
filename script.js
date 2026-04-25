@@ -77,89 +77,47 @@ function createEnemy() {
     }
 
     // MAIN GAME LOOP (Smooth 60FPS)
-    function update() {
+   function update() {
         if (gameOver) return;
 
-        // 1. Move Jet
-        if (keys["ArrowLeft"] && jetX > 0) {
-            jetX -= 7; 
-            jet.style.transform = "rotate(-15deg)";
+        // --- SMOOTH MOVEMENT LOGIC ---
+        if (keys["ArrowLeft"]) {
+            velocityX -= acceleration;
+            currentTilt = -20; // Target tilt
+        } else if (keys["ArrowRight"]) {
+            velocityX += acceleration;
+            currentTilt = 20; // Target tilt
+        } else {
+            currentTilt = 0; // Return to center
         }
-        if (keys["ArrowRight"] && jetX < gameArea.offsetWidth - 45) {
-            jetX += 7;
-            jet.style.transform = "rotate(15deg)";
+
+        // Apply Friction (Air resistance/Space drag)
+        velocityX *= friction;
+
+        // Cap the speed
+        if (velocityX > maxSpeed) velocityX = maxSpeed;
+        if (velocityX < -maxSpeed) velocityX = -maxSpeed;
+
+        // Apply Velocity to Position
+        jetX += velocityX;
+
+        // Boundary Brackets (Don't fly off screen)
+        if (jetX < 0) {
+            jetX = 0;
+            velocityX = 0;
         }
+        if (jetX > gameArea.offsetWidth - 44) {
+            jetX = gameArea.offsetWidth - 44;
+            velocityX = 0;
+        }
+
+        // Apply position and tilt
         jet.style.left = jetX + "px";
+        // Smoothly interpolate the rotation for a "leaning" effect
+        jet.style.transform = `rotate(${velocityX * 2}deg)`; 
 
-        // 2. Update Bullets
-        bullets.forEach((b, bIdx) => {
-            b.y += 10;
-            b.el.style.bottom = b.y + "px";
-            b.el.style.left = b.x + "px";
-
-            // Remove bullets off screen
-            if (b.y > gameArea.offsetHeight) {
-                b.el.remove();
-                bullets.splice(bIdx, 1);
-            }
-        });
-
-        // 3. Update Enemies
-        enemies.forEach((en, eIdx) => {
-            en.y += enemySpeed;
-            en.el.style.top = en.y + "px";
-
-            // Check Collision with Jet
-            const jetRect = jet.getBoundingClientRect();
-            const enRect = en.el.getBoundingClientRect();
-            
-            if (!(jetRect.top + 20 > enRect.bottom - 20 || jetRect.bottom - 20 < enRect.top + 20 || 
-                  jetRect.right - 20 < enRect.left + 20 || jetRect.left + 20 > enRect.right - 20)) {
-                endGame();
-            }
-
-            // Check Collision with Bullets
-            bullets.forEach((b, bIdx) => {
-                const bRect = b.el.getBoundingClientRect();
-                if (!(bRect.top > enRect.bottom || bRect.bottom < enRect.top || 
-                      bRect.right < enRect.left || bRect.left > enRect.right)) {
-                    
-                    createExplosion(en.x, en.y);
-                    en.el.remove();
-                    enemies.splice(eIdx, 1);
-                    b.el.remove();
-                    bullets.splice(bIdx, 1);
-                    
-                    score++;
-                    scoreDisplay.innerText = score;
-                    if (score % 10 === 0) enemySpeed += 0.3;
-                }
-            });
-
-            // Missed enemy
-            if (en.y > gameArea.offsetHeight) {
-                en.el.remove();
-                enemies.splice(eIdx, 1);
-                lives--;
-                livesDisplay.innerText = lives;
-                if (lives <= 0) endGame();
-            }
-        });
-
-        // 4. Update Particles
-        particles.forEach((p, pIdx) => {
-            p.x += p.velX;
-            p.y += p.velY;
-            p.life -= 0.02;
-            p.el.style.left = p.x + "px";
-            p.el.style.top = p.y + "px";
-            p.el.style.opacity = p.life;
-
-            if (p.life <= 0) {
-                p.el.remove();
-                particles.splice(pIdx, 1);
-            }
-        });
+        // --- REST OF THE GAME ENGINE (Bullets, Enemies, Particles) ---
+        updateEntities(); 
 
         requestAnimationFrame(update);
     }
