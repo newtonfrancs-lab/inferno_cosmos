@@ -3,61 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFERNO COSMOS | Galactic Records</title>
+    <title>Records - Inferno Cosmos</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="stars"></div>
-    <div class="warp-drive"></div>
-
     <nav class="navbar">
         <div class="logo">INFERNO COSMOS</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="Game.html">Play</a>
-        </div>
+        <div class="nav-links"><a href="index.html">Home</a></div>
     </nav>
 
     <section class="hero">
-        <h1 style="font-family: 'Orbitron'; font-size: 3rem; text-shadow: 0 0 20px var(--neon-cyan);">GALACTIC RECORDS</h1>
-        
-        <div class="card" style="margin: 40px auto; max-width: 500px; text-align: center; border-bottom: 1px solid var(--neon-cyan);">
-            <p style="font-size: 12px; letter-spacing: 4px; color: var(--neon-cyan); text-transform: uppercase;">Confirmed Kills</p>
-            <h2 id="highScore" style="font-family: 'Orbitron'; font-size: 100px; margin: 10px 0; color: #fff; text-shadow: 0 0 30px rgba(255,255,255,0.3);">0</h2>
-            <p id="rank-text" style="font-style: italic; color: #888; font-size: 18px; letter-spacing: 2px;">STATUS: SCANNING PILOT DATA...</p>
+        <h1>GALACTIC RECORDS</h1>
+        <div class="card" style="margin: 30px auto; max-width: 300px;">
+            <p style="color: var(--neon-cyan);">CONFIRMED KILLS</p>
+            <h2 id="highScoreDisplay" style="font-size: 60px;">0</h2>
         </div>
-
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-            <a href="Game.html" style="text-decoration: none;">
-                <button class="cta-btn">RE-DEPLOY</button>
-            </a>
-            
-            <button onclick="resetScore()" style="background: transparent; border: 1px solid var(--neon-red); color: var(--neon-red); padding: 10px 25px; cursor: pointer; font-family: 'Orbitron'; font-size: 10px; letter-spacing: 2px; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%); transition: 0.3s;">
-                WIPE TACTICAL DATA
-            </button>
-        </div>
+        <button class="cta-btn" onclick="localStorage.clear(); location.reload();">WIPE DATA</button>
     </section>
 
     <script>
-        // Score Logic
-        let highScore = localStorage.getItem("highScore") || 0;
-        document.getElementById("highScore").innerText = highScore;
-        
-        const rankText = document.getElementById("rank-text");
-        
-        // Dynamic Ranking System
-        if (highScore >= 200) rankText.innerText = "RANK: GALACTIC OVERLORD";
-        else if (highScore >= 100) rankText.innerText = "RANK: ELITE STRIKER";
-        else if (highScore >= 50) rankText.innerText = "RANK: VETERAN PILOT";
-        else if (highScore >= 10) rankText.innerText = "RANK: COMBAT READY";
-        else rankText.innerText = "RANK: ROOKIE RECRUIT";
-
-        function resetScore() {
-            if(confirm("DANGER: This will permanently erase mission history. Proceed?")) {
-                localStorage.setItem("highScore", 0);
-                location.reload();
-            }
-        }
+        document.getElementById('highScoreDisplay').innerText = localStorage.getItem('highScore') || 0;
     </script>
 </body>
 </html>
