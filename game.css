@@ -63,10 +63,20 @@
   will-change: left, top, opacity;
 }
 
-/* Ensure smooth rotation of the jet */
 .jet {
-    transition: transform 0.15s ease-out; /* Slight lag for organic feel */
-    will-change: transform, left;
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    bottom: 30px;
+    background: #fff;
+    clip-path: polygon(50% 0%, 100% 100%, 50% 85%, 0% 100%);
+    filter: drop-shadow(0 0 15px var(--neon-cyan));
+    
+    /* CRITICAL: Remove transition on 'left' so JS handles it instantly */
+    /* Only transition the tilt/transform */
+    transition: transform 0.2s ease-out; 
+    will-change: left, transform;
+    z-index: 20;
 }
 
 /* Force hardware acceleration for enemies */
