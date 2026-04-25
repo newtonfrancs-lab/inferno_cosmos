@@ -8,18 +8,20 @@
     <link rel="stylesheet" href="game.css">
 </head>
 <body>
+    <div class="stars"></div>
+
     <nav class="navbar">
         <div class="logo">INFERNO COSMOS</div>
         <div class="nav-links"><a href="index.html">Abort Mission</a></div>
     </nav>
 
     <div class="hud-container">
-        <div class="hud-item">
+        <div class="hud-item" style="border-top: 3px solid #00f7ff;">
             <span class="hud-label">TACTICAL SCORE</span>
             <span class="hud-value" id="score">0</span>
         </div>
-        <div class="hud-item" style="border-top-color: var(--neon-red);">
-            <span class="hud-label">HULL INTEGRITY</span>
+        <div class="hud-item" style="border-top: 3px solid #ff4d4d;">
+            <span class="hud-label" style="color: #ff4d4d;">HULL INTEGRITY</span>
             <span class="hud-value" id="lives">3</span>
         </div>
     </div>
